@@ -1,0 +1,66 @@
+# On your /etc/ssmtp/ssmtp.conf: mailhub=127.0.0.1:3000
+# smtp.gmail.com:587
+set sendmail="/usr/sbin/ssmtp"
+set imap_user = "@TODO_GMAIL_USER@gmail.com"
+# set imap_pass = ""
+set from = "@TODO_GMAIL_USER@gmail.com"
+set realname = "@TODO_REALNAME"
+set editor = "vp"
+# set folder = "imaps://imap.gmail.com:993"
+# Tunneling imap.gmail.com:
+# $ autossh -M 20000 -L 2999:imap.gmail.com:993 $S -N
+set folder = "imaps://localhost:2999"
+set spoolfile = "+INBOX"
+set imap_check_subscribed
+set hostname = gmail.com
+set mail_check = 30
+set timeout = 100
+set imap_keepalive = 300
+set postponed = "+[GMail]/Drafts"
+set record = "+[GMail]/Sent Mail"
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file=~/.mutt/certificates
+set move = no
+set include
+set sort = 'threads'
+set sort_aux = reverse-last-date-received'
+set auto_tag = yes
+set quit=ask-yes
+ignore 'Authentication-Results:'
+ignore 'DomainKey-Signature:'
+ignore 'DKIM-Signature:'
+hdr_order Date From To Cc
+alternative_order text/plain text/html *
+auto_view text/html
+# Custom keybinding
+bind editor <Tab> complete-query
+bind editor ^T complete
+bind editor <space> noop
+bind pager G bottom
+bind pager gg top
+bind pager <Up> previous-line
+bind pager <Down> next-line 
+bind pager k previous-line
+bind pager j next-line 
+
+# Custom gui
+set arrow_cursor=yes
+color status brightyellow black
+
+macro index,pager y "<save-message>=[Gmail]/All Mail<enter><enter>" "Gmail archive message"
+macro index,pager d "<save-message>=[Gmail]/Trash<enter><enter>" "Gmail delete message"
+macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
+macro index,pager gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to sent"
+macro index,pager gx "<change-folder>=[Gmail]/Starred<enter>" "Go to starred"
+macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
+macro index,pager gp "<change-folder>=PEMEX<enter>" "Go to PEMEX"
+macro index,pager gP "<change-folder>=Personal<enter>" "Go to Personal"
+macro index,pager gO "<change-folder>=Omar<enter>" "Go to Omar"
+macro index,pager gB "<change-folder>=Banamex<enter>" "Go to Banamex"
+macro index,pager gI "<change-folder>=Impuestos<enter>" "Go to Impuestos"
+
+set message_cachedir="~/.mutt_msgcache"
+set query_command="goobook query '%s'"
+

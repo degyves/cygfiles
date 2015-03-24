@@ -1,0 +1,4 @@
+setxkbmap es
+mixerctl outputs.master=200,200
+xset dpms 7200 7200 7200
+xset s 7200 7200

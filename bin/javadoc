@@ -1,0 +1,4 @@
+ESCAPED_HOME="/home/Victor Polo"
+JAVADOC_HEADER="<script type='text/javascript' src='$MATHJAX_HOME/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>"
+echo $JAVADOC_HEADER
+"/home/Victor Polo/"java/bin/javadoc -header "$JAVADOC_HEADER"

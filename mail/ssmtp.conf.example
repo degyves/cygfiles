@@ -1,0 +1,95 @@
+#
+# /etc/ssmtp/ssmtp.conf -- a config file for sSMTP sendmail.
+#
+
+UseSTARTTLS=YES
+# mailhub=smtp.gmail.com:587
+# If we need to tunnel smtp.gmail.com from a $S intermediate server
+# then start the tunnel as:
+#  $ ssh -L 3000:smtp.gmail.com:587 $S -N
+# And change mailhub to local:
+mailhub=127.0.0.1:3000
+FromLineOverride=YES
+hostname=ACER
+rewriteDomain=gmail.com
+root=@TODO_GMAIL_USER@gmail.com
+
+UseTLS=YES
+#UseTLS=NO
+AuthUser=@TODO_GMAIL_USER
+AuthPass=@TODO_GMAIL_PASSWORD
+#UseTLSCert=YES
+#TLSCert=/etc/ssl/certs/ssmtp.pem
+#Debug=YES
+
+# Configure sSMTP in Six Easy Steps (or so)
+# 
+# (1) mailhub
+# This is the computer responsible for handling your outgoing mail.
+# It could be the SMTP server of your ISP, or a departmental mailhub.
+# Use the fully-qualified domain name (foo.bar.baz) of the mailhub;
+# if it uses an unusual SMTP port number, use the colon syntax
+#   foo.bar.baz:2525
+# Otherwise sSMTP will use the standard SMTP port number (25).
+# (Note that sSMTP can support a user-dependent mailhub with the
+# 'reverse aliases' feature, for which see the man page.)
+# 
+# (2) FromLineOverride
+# This specifies how sSMTP handles the From: line of outgoing mail.
+# If FromLineOverride=YES, sSMTP will leave the From: line alone if
+# it already exists.  If FromLineOverride has any other value, or
+# there is no From: line, sSMTP creates the From: line using your
+# username (or the -f command-line option), and the value of the
+# rewriteDomain option (step (4), below).
+#     If you use a mail user agent (MUA; e.g. mutt, pine) I recommend
+# using YES and having the MUA set the From: line.  (Exception: the
+# 'reverse aliases' feature can be used to set up a particular From:
+# address for each user, in which case don't use FromLineOverride=YES.
+# See the man page.)
+# 
+# (3) hostname
+# sSMTP uses the hostname of your computer to identify itself to the
+# mailhub, and in the Received: headers of the outgoing mail.  This
+# has relatively little effect on how the mail is handled.
+#     Use the fully-qualified domain name (FQDN) of your computer
+# (foo.bar.baz).  If it doesn't have a FQDN, use some name for your box.
+# 
+# (4) rewriteDomain
+# Please enter the mail name of your system.
+# sSMTP uses this value to add a domain to unqualified e-mail addresses
+# (addresses without an @-sign).
+#     You probably want to use the domain from your own e-mail address.
+# You probably want to set up your MUA to handle unqualified addresses
+# itself, in which case sSMTP will never have to use this.  (Users of
+# cron note that cron always uses unqualified addresses.)
+# 
+# (5) root
+# If sSMTP finds an unqualified e-mail address among
+# the recipients, and it corresponds to a username on your local
+# machine with a userid less than 1000, then the e-mail is sent to
+# this value instead.  The idea is that mail sent to 'root' should
+# probably go to 'postmaster' instead.
+#     If you set up your MUA to do its own handling of unqualified
+# addresses, this is irrelevant.  (But note that cron does use
+# unqualified addresses corresponding to local usernames.)
+# Use your own e-mail address unless you know a better postmaster.
+# 
+# (6) link /usr/sbin/sendmail to /usr/sbin/ssmtp?
+# Some programs (e.g. cron) expect /usr/sbin/sendmail to handle mail.
+# You may wish to ensure that it is a symbolic link to /usr/sbin/ssmtp.
+#
+# (7) Miscellaneous SSL/TLS configuration
+# Use SSL/TLS to send secure messages to server.
+#	UseTLS=YES
+# Use SSL/TLS certificate to authenticate against smtp host.
+#	UseTLSCert=YES
+# Use this RSA certificate.
+#	TLSCert=/etc/ssl/certs/ssmtp.pem
+#
+# (8) Debugging
+# Get enhanced (*really* enhanced) debugging information in the logs
+# If you want to have debugging of the config file parsing, move this option
+# to the top of the config file and uncomment
+#	Debug=YES
+#
+#

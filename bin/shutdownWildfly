@@ -1,0 +1,2 @@
+#!/bin/bash
+/home/VictorPolo/jee6/wildfly/wildfly-8.2.0.Final/bin/jboss-cli.sh --connect :shutdown

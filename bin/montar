@@ -1,0 +1,1 @@
+mount -t ext2fs /dev/sd0i /home/@TODO_OPENBSD_USER/mnt

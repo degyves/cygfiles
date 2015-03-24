@@ -1,0 +1,23 @@
+#!/bin/bash
+echo "Uso: screencast <sound|nosound> out.mp4"
+echo ""
+
+if [ "$#" -ne 2 ] ; then
+	echo "Error"
+elif [ "$1" == "sound" ]; then
+	ffmpeg \
+	-f dshow -i video="UScreenCapture" \
+	-f dshow -i audio="Micrófono (Realtek High Definition Audio)" \
+	-r 30 -vcodec mpeg4 -q 15 -acodec libmp3lame -ab 64k -f mpegts \
+	\
+	$2
+elif [ "$1" == "nosound" ]; then
+	ffmpeg \
+	-f dshow -i video="UScreenCapture" \
+	-r 30 -vcodec mpeg4 -q 15 -f mpegts \
+	\
+	$2
+else
+	echo "Error" 
+fi
+

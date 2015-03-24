@@ -1,0 +1,17 @@
+XTerm*faceName:       Courier
+xterm*faceSize:       16
+XTerm*loginShell:     true
+XTerm*fullscreen:     true
+XTerm*background:			black
+XTerm*foreground:			white
+XTerm*cursorcolor:		red
+XTerm*scrollBar:		  no
+XTerm*scrollTtyOutput:false
+XTerm*saveLines:      2000
+
+xterm.VT100.Translations:    #override \n\
+        Shift <KeyPress> Insert:        insert-selection(CLIPBOARD) \n\
+        Shift <KeyPress> Delete:                       insert-selection(SELECT, CUT_BUFFER0) \n\
+        <Btn2Up>:                       insert-selection(SELECT, CUT_BUFFER0) \n\
+        ~Shift<BtnUp>:                  select-end(PRIMARY, CUT_BUFFER0) \n\
+        Shift<BtnUp>:                   select-end(CLIPBOARD, CUT_BUFFER1)

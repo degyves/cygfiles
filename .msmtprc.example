@@ -1,0 +1,12 @@
+account default              
+host smtp.gmail.com          
+port 587                     
+from @TODO_GMAIL_USER@gmail.com     
+tls on                       
+tls_starttls on              
+# tls_trust_file /home/@TODO_CYGWIN_USER/.certs/Thawte_Premium_Server_CA.pem
+tls_trust_file /home/@TODO_CYGWIN_USER/.certs/Equifax_Secure_CA.pem
+auth on                     
+user @TODO_GMAIL_USER
+password @TODO_GMAIL_PASSWORD
+logfile ~/.msmtp.log

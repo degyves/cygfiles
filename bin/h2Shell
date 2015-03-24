@@ -1,0 +1,1 @@
+java -cp c:/cygwin64/home/VictorPolo/jee6/h2/h2/bin/h2-1.4.185.jar org.h2.tools.Shell

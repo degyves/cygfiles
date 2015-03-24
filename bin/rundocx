@@ -1,0 +1,6 @@
+#!/bin/bash
+LIB1=$(cygpath -w /cygdrive/c/docx4j/dependencies/*)
+LIB1=$(echo $LIB1|sed 's/ C:/;C:/g')
+LIB1=$LIB1";.;"$(cygpath -w /cygdrive/c/docx4/docx4j-3.2.1.jar)
+echo $LIB1
+java -classpath "$LIB1" $@

@@ -1,0 +1,15 @@
+echo "Llamando a synclient"
+
+synclient ClickTime=500
+synclient TapButton1=1
+synclient VertScrollDelta=-50
+synclient HorizScrollDelta=50
+synclient HorizTwoFingerScroll=1
+synclient VertScrollDelta=-25
+synclient VertScrollDelta=-5
+synclient VertScrollDelta=-15
+synclient VertScrollDelta=15
+synclient VertScrollDelta=350
+synclient VertScrollDelta=-350
+synclient HorizScrollDelta=150
+synclient HorizTwoFingerScroll=0

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+LOGFILE=~/.filewatcher.log
+#LOGFILE=/dev/null
+
+echo $@ >> $LOGFILE
+
+export LAST=$(stat -c %Y $1) # change time, in secs
+export CUR=$(stat -c %X $1) # access time, in secs
+echo "LAST:" $LAST >>  $LOGFILE
+echo "CUR:" $CUR >> $LOGFILE
+
+# if LAST is not set, error.
+[ -z "{$LAST+x}" ] && echo "LAST not set. Error." >> $LOGFILE 
+[ -z "{$LAST+x}" ] && return -1;
+
+# if CUR is not set, error.
+[ -z "{$CUR+x}" ] && echo "CUR not set. Error." >> $LOGFILE 
+[ -z "{$CUR+x}" ] && return -1;
+
+export SECONDS_FROM_LAST_EVENT=$(( CUR - LAST ))
+echo "SECONDS:" $SECONDS_FROM_LAST_EVENT>> $LOGFILE
+
+if [ $SECONDS_FROM_LAST_EVENT -lt 2 ]; then
+ echo "  THEN NOTHING" >> $LOGFILE
+else
+ export CTAGSDIR=$(dirname $1)
+ echo "  ELSE CTAGS AND TOUCH ACCESS" $CTAGSDIR >> $LOGFILE
+ ctags -f $CTAGSDIR/tags $CTAGSDIR/*.$2
+ touch -a $1
+fi
+

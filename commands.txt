@@ -1,0 +1,48 @@
+*** VIM
+	
+    Follow vim-link: C-] (without AltGr)
+
+    Return from vim-link: C-o
+
+    To change two vertically split windows to horizonally split
+
+    Ctrl-W t Ctrl-W K
+
+    Horizontally to vertically:
+
+    Ctrl-W t Ctrl-W H
+
+    Explanations:
+
+    Ctrl-W t makes the first (topleft) window current Ctrl-W K moves the current window to full-width at the very top Ctrl-W H moves the current window to full-height at far left
+
+*** Better find | xargs
+
+ *** Mostrar sólo el archivo, a partir del directorio actual:
+
+  grep -rli "swank" ./
+
+ *** Más detalles (archivo y número de línea):
+
+  grep -rnw 'directory' -e "pattern"
+
+ *** Otros ejemplos:
+
+  grep -rinw 'directory' -e "pattern"
+  grep --include=\*.{c,h] -rnw 'directory' -e "pattern"
+  grep --exclude=*.o -rnw 'directory' -e "pattern"
+  grep --exclude-dir={dir1,dir2,*.dst}
+
+
+*** echo last command:
+
+!:0 -> name of last command
+!:1 -> first parameter of last command
+!:* -> all parameters of last command
+!:-1 -> the final parameter
+!! -> the entire last command
+
+echo !!
+
+LANG=C.BINARY gem install asciidoctor
+echo '<h1>Hello world!</h1>'|firefox "data:text/html;base64,$(base64 -w 0 <&0)"

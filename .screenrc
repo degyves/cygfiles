@@ -1,0 +1,30 @@
+setenv BUFFERFILE "/tmp/screen-exchange"
+bufferfile "$BUFFERFILE"
+startup_message off
+# 10000 lineas de scrollback
+defscrollback 10000
+# usar los scrolls de xterm
+# termcapinfo xterm* ti@:te@
+# con "/" limpiar la pantalla
+bind / eval "scrollback 0" "scrollback 10000"
+# desactivar visual bell
+vbell off
+# divisores sin color de background
+rendition so "="
+
+#screensaver
+# idle 60
+# blankerprg cmatrix
+
+screen -t W1 bash
+screen -t W2 bash
+screen -t W3 bash
+screen -t W4 bash
+select W1
+split -v
+focus
+select W2
+focus prev
+
+source ~/.screencustomrc
+

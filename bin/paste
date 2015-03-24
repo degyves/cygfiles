@@ -1,0 +1,3 @@
+#!/bin/bash
+# Pega texto en UTF-8 convertido a ISO al portapapeles
+iconv -f UTF-8 -t ISO-8859-1|putclip

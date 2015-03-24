@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -p 60690 @TODO_VPS_USER@@TODO_VPS_IP

@@ -1,0 +1,66 @@
+#!/bin/bash
+HASHTABLE_FILE=~/.whatrc
+HASHTABLE_DIR=~/.what
+CONCEPT="$@"
+SITE="http://en.wikipedia.org/wiki/" 
+declare -A HASHTABLE
+
+function urlencode () {
+	echo -n "$CONCEPT" | perl -MURI::Escape -ne 'print uri_escape($_)'
+}
+
+function initializeFiles () {
+	# Inicializar HASHTABLE_FILE
+	if [ ! -f $1 ]; then
+		echo "" > $1
+	else
+		touch $1
+	fi
+	# Inicializar HASHTABLE_DIR
+	if [ ! -f $2 ]; then
+		mkdir -p $2
+	fi
+}
+
+# Esta funcion requiere que exista la variable global $HASHTABLE
+# En bash no se puede devolver un associative array desde una función
+function populateHash () {
+	while IFS=$'\n' read -r LINE; do
+		while IFS=$'|' read -ra LINE_SPLIT; do
+			for i in "${LINE_SPLIT[@]}"; do
+				HASHTABLE[${LINE_SPLIT[0]}]=${LINE_SPLIT[1]}
+			done
+		done
+	done < $1
+}
+
+if [ "$#" -ge 1 ]; then
+	initializeFiles $HASHTABLE_FILE $HASHTABLE_DIR
+	# Leer el archivo y poblar el arreglo asociativo (hashtable)
+	# El parametro HASHTABLE es una variable global
+	populateHash $HASHTABLE_FILE
+	# Si el concepto ya existe no ir a la web, caso contrario ir a la web
+	if [[ ${HASHTABLE[$CONCEPT]} ]]; then
+		echo "Existe en el diccionario $CONCEPT"
+		CONCEPT_FILE=${HASHTABLE[$CONCEPT]}
+	else
+		echo "No existe en el diccionario $CONCEPT"
+		CONCEPT_FILE="$(mktemp -p $HASHTABLE_DIR)"
+		CONCEPT_ENCODED=$(urlencode)
+		URL=$SITE$CONCEPT_ENCODED
+		browse $URL $CONCEPT_FILE $CONCEPT $HASHTABLE_FILE
+		curl -# -A 'Mozilla/4.0' -L "${URL}" -o $CONCEPT_FILE
+		if [ "$?" -eq 0 ]; then
+			HASHTABLE[$CONCEPT]=$CONCEPT_FILE
+			echo "Sin errores."
+			echo $CONCEPT\|$CONCEPT_FILE >> $HASHTABLE_FILE
+		else
+			echo "Error: " $?
+			exit $?
+		fi
+	fi
+	# Si todo está correcto, mostrar el archivo
+	cat $CONCEPT_FILE|html2text|less
+fi
+
+

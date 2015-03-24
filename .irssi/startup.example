@@ -1,0 +1,3 @@
+/NETWORK ADD -nick @TODO_IRC_USER -autosendcmd "/^msg nickserv identify @TODO_IRC_PASSWORD;wait 2000" freenode
+/CHANNEL ADD -auto #forge freenode
+/SERVER ADD -auto -network freenode irc.freenode.org 6667

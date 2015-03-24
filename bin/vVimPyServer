@@ -1,0 +1,2 @@
+#!/bin/bash
+vim ~/.vim/bundle/VimPyServer/{README.asciidoc,bin/*,plugin/*,doc/VimPyServer.txt,test/TESTING.asciidoc}

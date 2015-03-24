@@ -1,0 +1,2 @@
+#!/bin/sh
+ ssh -D 9999 -Nf @TODO_VPS_USER@@TODO_VPS_HOST

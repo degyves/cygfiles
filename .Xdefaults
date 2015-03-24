@@ -1,0 +1,3 @@
+XTerm*loginShell:true
+XTerm*font: *-fixed-*-*-*-18-*
+XTerm*boldFont: *-fixed-*-*-*-18-*

@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /cygdrive/c/Program\ Files\ \(x86\)/Maxima-sbcl-5.35.1.2/lib/maxima/5.35.1.2/binary-sbcl/
+rlwrap ../../../../bin/sbcl.exe --core maxima.core  --eval '(cl-user::run)'

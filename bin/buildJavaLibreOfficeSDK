@@ -1,0 +1,6 @@
+#!/bin/bash
+LIB1=$(cygpath -w ~/pfx86/LibreOffice\ 4/URE/java/*)
+LIB1=$(echo $LIB1|sed 's/ C:/;C:/g')
+LIB1=$LIB1";"$(cygpath -w ~/pfx86/LibreOffice\ 4/program/classes/unoil.jar)
+echo $LIB1
+javac -classpath "$LIB1" $@
