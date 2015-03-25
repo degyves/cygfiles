@@ -46,4 +46,4 @@
 !.gitignore
 !.signature
 !.msmtprc.example
-
+!.offlineimaprc
