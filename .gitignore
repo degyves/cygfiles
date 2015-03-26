@@ -12,7 +12,7 @@
 !.irssi/config.example
 !.irssi/startup.example
 !.mutt
-!.mutt/*
+!.mutt/certificates
 !.vim/CamelCaseMotion
 !.vim/emmet-vim
 !.vim/minibufexpl.vim
