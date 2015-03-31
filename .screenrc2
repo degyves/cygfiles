@@ -16,11 +16,10 @@ rendition so "="
 # idle 60
 # blankerprg cmatrix
 
-screen -t Mutt bash
-screen -t Irssi bash
-screen -t smtpTunnel mail/smtpTunnel.sh
-screen -t imapTunnel mail/imapTunnel.sh
-# screen -t irssiTunnel bash
-select Mutt
+screen -t W1 bash
+screen -t W2 bash
+screen -t W3 bash
+screen -t W4 bash
+select W1
 
 source ~/.screencustomrc

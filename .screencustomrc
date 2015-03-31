@@ -1,11 +1,13 @@
-
-hardstatus alwayslastline "%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]"
+hardstatus alwayslastline "%{= kG}[ %{G}%H %{g}][ %d/%m/%y %C %A ][ %-Lw%{Y}(%Lt)%{g}%+Lw ]"
 bindkey "^k" eval "copy" "stuff ^b"
 bindkey -m "^k" stuff ^b
 bindkey -k k1 select 0
 bindkey -k k2 select 1
 bindkey -k k3 select 2
 bindkey -k k4 select 3
+bindkey -k k4 select 3
+bindkey -k k7 resize =
+bindkey -k k8 resize max
 bindkey "^l"  eval "copy" "stuff \060" "stuff \015" "stuff \044" "stuff \015" "focus" "paste ." "stuff \015" "focus"
 bindkey "^g" eval readbuf "focus" "paste ." "focus"
 bindkey "^h" source ~/.screencustomrc

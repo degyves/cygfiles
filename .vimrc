@@ -61,6 +61,7 @@ autocmd FileType rkt let g:lisp_rainbow=1
 function! PasteToGnuScreen()
 	normal vapy
 	:call writefile( split(@", "\n"), $BUFFERFILE )
+	:silent !gnuScreenPasteFunction
 	" :echo "Paste to GNU Screen"
 endfunction
 nmap <C-f> :call PasteToGnuScreen()<CR>

@@ -1,1 +1,14 @@
 text/html; /usr/bin/lynx -dump -width=78 -nolist %s; copiousoutput; needsterminal; nametemplate=%s.html
+application/excel; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/ms-exc; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/msword; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/vnd.ms-exc; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/vnd.ms-excel; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/x-msexcel; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
+application/pdf; $HOME/.mutt/mutt_bgrun pdf %s
+text/plain; $HOME/.mutt/mutt_bgrun less %s
+text/*; $HOME/.mutt/mutt_bgrun less %s
+# Unidentified files
+application/octet-stream; $HOME/.mutt/mutt_bgrun less %s
+multipart/alternative; $HOME/.mutt/mutt_bgrun less %s

@@ -1,0 +1,6 @@
+base=~/mail/gmail
+maildir=INBOX:Omar:PEMEX:RECIBOS...:Impuestos:BANAMEX...
+mformat=maildir
+omit=zz_mairix-*
+mfolder=mairix
+database=~/mail/mairixdatabase
