@@ -7,7 +7,8 @@
 echo "Running .bashrc"
 unset TMP
 unset TEMP
-export LS_COLORS="$LS_COLORS:di=02;34"
+export PS1='$(whoami) $(date +%R) $(pwd)\n\$ '
+export LS_COLORS="$LS_COLORS:di=02;36"
 export ANT_HOME="$(echo $HOME|sed 's/ /\\ /g')/ant"
 export GF_HOME=/cygdrive/c/glassfish-4.0/glassfish
 echo $ANT_HOME

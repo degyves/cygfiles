@@ -8,8 +8,8 @@ bindkey -k k4 select 3
 bindkey -k k4 select 3
 bindkey -k k7 resize =
 bindkey -k k8 resize max
-bindkey "^l"  eval "copy" "stuff \060" "stuff \015" "stuff \044" "stuff \015" "focus" "paste ." "stuff \015" "focus"
-bindkey "^g" eval readbuf "focus" "paste ." "focus"
-bindkey "^h" source ~/.screencustomrc
+# bindkey "^l"  eval "copy" "stuff \060" "stuff \015" "stuff \044" "stuff \015" "focus" "paste ." "stuff \015" "focus"
+# bindkey "^g" eval readbuf "focus" "paste ." "focus"
+# bindkey "^h" source ~/.screencustomrc
 # bindkey "^n" exec sh -c "sleep 10 && echo hello"
 

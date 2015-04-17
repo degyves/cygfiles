@@ -1,0 +1,22 @@
+#!/bin/bash
+if [ -n "$STY" ]; then
+	screen -X readbuf 
+	sleep 0.1
+	screen -p 1 -X paste . 
+	# screen focus next
+	# sleep 0.2
+	screen -X paste .
+	sleep 0.1
+	# On ubuntu the next line is not necessary
+	# screen version 4.02.01
+	# screen -X focus prev
+elif [ -n "$TMUX" ]; then
+	tmux load-buffer ~/.consolebuff
+	tmux last-pane
+	tmux paste-buffer
+	tmux last-pane
+else
+	echo "No screen multiplexer"
+	echo "(GNU screen nor TMUX)"
+fi
+

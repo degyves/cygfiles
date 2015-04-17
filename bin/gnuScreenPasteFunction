@@ -1,6 +1,0 @@
-#!/bin/bash
-screen -X readbuf 
-sleep 0.2
-screen -p 1 -X paste . 
-sleep 0.2
-screen -X focus
