@@ -24,7 +24,7 @@ export W=~/jee6/wildfly/wildfly-8.2.0.Final
 export A=~/jee6/activiti/activiti-5.17.0
 export EDITOR=vp
 
-export PATH=~/sc:.:$ANT_HOME/bin:$JAVA_HOME/bin:~/utils/graphviz/bin:$GF_HOME/bin:$PATH:$HOME/privatebin:$HOME/privatebin/sql
+export PATH=~/sc:.:$ANT_HOME/bin:$JAVA_HOME/bin:~/utils/graphviz/bin:$GF_HOME/bin:$PATH:$HOME/privatebin:$HOME/privatebin/sql:~/offlineimap/
 # #############
 
 # See man bash for more options...

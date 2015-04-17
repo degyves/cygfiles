@@ -1,11 +1,13 @@
 :imap jj <Esc>
 syntax on
+set digraph
 
 " Sin mensaje inicial
 
 " El cursor siempre en la línea media, cuando sea posible
 " para apagar, :set so=0
-" set so=999
+set so=999
+" set so=0
 " El cursor siempre en la línea media, incluso si es fin del archivo
 " pero se anula el repintado automatico de la pantalla
 " set lazyredraw
@@ -50,7 +52,7 @@ let g:slimv_browser_cmd = "lynx"
 let g:slimv_clhs_root = "file:///home/VictorPolo/lisp/clhs/HyperSpec/Body/"
 let g:slimv_repl_syntax = 0
 " Apagar slimv para lisp: 
-" let g:slimv_disable_lisp = 1
+let g:slimv_disable_lisp = 1
 let g:slimv_leader = "-"
 nmap <leader>r :redraw!<CR>
 autocmd BufRead, BufNewFile *.jar,*.war,*.rar set filetype=zip
@@ -82,6 +84,8 @@ function! PasteToConsoleMultiplexer()
 	endif
 endfunction
 nmap <C-f> :call PasteToConsoleMultiplexer()<CR>
+" y a partir de alli, llamar a bin/gnuScreenPasteFunction
+" de forma que se pegue en la ventana contigua de GNU Screen
 " nmap <leader>1 :let @" = join(readfile( $BUFFERFILE ), "\n")<CR>
 " Abrir el REPL de lisp en modo vertical
 " nmap <leader>k <leader>c<CR>:only<CR><C-w>v<CR><C-w>w<CR>L<CR>

@@ -1,3 +1,11 @@
+# divisores horizontales sin informacion (escondidos)
+# caption string "%{= dd} "
+# divisores horizontales visibles
+caption string " "
+# divisores sin color de background
+# rendition so "="
+# divisores fore white, back grak (deberia ser black)
+rendition so wg
 hardstatus alwayslastline "%{= kG}[ %{G}%H %{g}][ %d/%m/%y %C %A ][ %-Lw%{Y}(%Lt)%{g}%+Lw ]"
 bindkey "^k" eval "copy" "stuff ^b"
 bindkey -m "^k" stuff ^b
@@ -9,6 +17,11 @@ bindkey -k k4 select 3
 bindkey -k k7 resize =
 bindkey -k k8 resize max
 # bindkey "^l"  eval "copy" "stuff \060" "stuff \015" "stuff \044" "stuff \015" "focus" "paste ." "stuff \015" "focus"
+bindkey "^h" eval "focus left"
+bindkey "^j" eval "focus down"
+bindkey "^k" eval "focus up"
+bindkey "^l" eval "focus right"
+bindkey "^g"  eval "copy" "stuff \060" "stuff \015" "stuff \044" "stuff \015" "focus" "paste ." "stuff \015" "focus up"
 # bindkey "^g" eval readbuf "focus" "paste ." "focus"
 # bindkey "^h" source ~/.screencustomrc
 # bindkey "^n" exec sh -c "sleep 10 && echo hello"

@@ -1,0 +1,7 @@
+# korn and bash shells follows sleep [fraction of second]
+screen -X readbuf 
+# screen -p 1 -X paste . 
+screen -X focus down
+sleep 0.05
+screen -X paste . 
+screen -X focus up

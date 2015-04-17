@@ -9,8 +9,6 @@ defscrollback 10000
 bind / eval "scrollback 0" "scrollback 10000"
 # desactivar visual bell
 vbell off
-# divisores sin color de background
-rendition so "="
 
 #screensaver
 # idle 60

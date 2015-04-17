@@ -2,11 +2,12 @@
 if [ -n "$STY" ]; then
 	screen -X readbuf 
 	sleep 0.1
-	screen -p 1 -X paste . 
-	# screen focus next
-	# sleep 0.2
-	screen -X paste .
-	sleep 0.1
+	# screen -p 1 -X paste . 
+	screen -X focus down
+	sleep 0.05
+	screen -X paste . 
+	sleep 0.05
+	screen -X focus up	
 	# On ubuntu the next line is not necessary
 	# screen version 4.02.01
 	# screen -X focus prev
