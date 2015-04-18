@@ -71,19 +71,25 @@ if empty($STY) && empty($TMUX)
 endif
 
 " lisp  - copiar de VIM a /tmp/screen-exchange
-function! PasteToConsoleMultiplexer()
+function! PasteToConsoleMultiplexer( singleline )
 	if g:consolemuxfound
-		normal vapy
-		"	:call writefile( split(@", "\n"), $BUFFERFILE )
+		if a:singleline
+			normal yy
+		else
+			normal vapy
+		endif
 		:call writefile( split(@", "\n"), g:vimconsolebuff )
-		:silent !consoleMultiplexerPasteFunction
+		:silent !consoleMultiplexerPasteFunction & > /dev/null
 		:redraw!
-		:echo "Paste to console multiplexer"
+		" :echo "Paste to console multiplexer"
 	else
-		:echo "Err: No console multiplexer"
+		" :echo "Err: No console multiplexer"
 	endif
 endfunction
-nmap <C-f> :call PasteToConsoleMultiplexer()<CR>
+" Copiar una sola linea
+nmap <C-f> :call PasteToConsoleMultiplexer(0)<CR>
+" Copiar un bloque de texto
+nmap <C-c> :call PasteToConsoleMultiplexer(1)<CR>
 " y a partir de alli, llamar a bin/gnuScreenPasteFunction
 " de forma que se pegue en la ventana contigua de GNU Screen
 " nmap <leader>1 :let @" = join(readfile( $BUFFERFILE ), "\n")<CR>

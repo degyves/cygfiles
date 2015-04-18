@@ -13,7 +13,7 @@ if [ -n "$STY" ]; then
 	# screen -X focus prev
 elif [ -n "$TMUX" ]; then
 	tmux load-buffer ~/.consolebuff
-	tmux last-pane
+	tmux selectp -D
 	tmux paste-buffer
 	tmux last-pane
 else
