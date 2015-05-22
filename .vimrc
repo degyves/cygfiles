@@ -1,28 +1,13 @@
   :imap jj <Esc>
   syntax on
+  " Usar l<backspace>* para obtener el caracter λ y otros 
   set digraph
-
-  " Sin mensaje inicial
 
   " El cursor siempre en la línea media, cuando sea posible
   " para apagar, :set so=0
   " set so=999
-  set so=0
-  " El cursor siempre en la línea media, incluso si es fin del archivo
-  " pero se anula el repintado automatico de la pantalla
-  " set lazyredraw
-  " nnoremap <C-U> 11kzz
-  " nnoremap <C-D> 11jzz
-  " nnoremap j jzz
-  " nnoremap k kzz
-  " nnoremap # #zz
-  " nnoremap * *zz
-  " nnoremap n nzz
-  " nnoremap N Nzz
-  " nnoremap G Gzz
-
-  " nnoremap <leader>hh :call ToggleHardMode()<CR>
-
+  " set so=0
+  "
   " Cambiar el leader, de "\" a ","
   let mapleader=","
 
@@ -197,16 +182,15 @@ au FileType mxml setlocal foldmethod=manual
 au FileType actionscript setlocal foldmethod=manual
 au BufWinEnter *.F90 call CheckFileEncoding()
 au BufWinEnter *.f90 call CheckFileEncoding()
+
 " Cuando el archivo sea escrito
-au BufWritePost *.tex :call Refresh_Pdf()
+au BufWritePost *.tex :call Refresh_Tex()
 " Cuando el archivo sea modificado
-" au TextChanged,TextChangedI *tex :call Refresh_Pdf()
-function! Refresh_Pdf()
+function! Refresh_Tex()
   :write 
   :silent !pdflatex -output-directory=%:p:h % >/dev/null
   :redraw!
 endfunction
-
 
 autocmd BufWriteCmd *.html,*.css,*.gtpl :call Refresh_firefox()
 function! Refresh_firefox()
@@ -316,9 +300,10 @@ set statusline+=\ col:\ %c
 hi StatusLineNC ctermfg=black ctermbg=white
 hi StatusLine ctermfg=white ctermbg=black
 
+" TODO: Eliminar
 " ConqueTerm permite usar C-w en modo insert
-let g:ConqueTerm_InsertOnEnter = 1
-let g:ConqueTerm_CWInsert = 1
+" let g:ConqueTerm_InsertOnEnter = 1
+" let g:ConqueTerm_CWInsert = 1
 
 " Usar F8 para tooglear el tagbar
 nnoremap <silent> <F8> :TagbarToggle<CR>
@@ -344,4 +329,3 @@ execute pathogen#infect()
 Helptags
 
 let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docx,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx'
-
