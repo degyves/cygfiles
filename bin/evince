@@ -1,0 +1,2 @@
+#!/bin/bash
+/home/VictorPolo/VictorPolo/AppData/Local/Apps/Evince-2.32.0.145/bin/evince.exe $@

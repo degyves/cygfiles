@@ -13,9 +13,12 @@ if [ -n "$STY" ]; then
 	# screen -X focus prev
 elif [ -n "$TMUX" ]; then
 	tmux load-buffer ~/.consolebuff
-	tmux selectp -D
+  # Select panel 1. Panel 1 has the REPL
+	tmux selectp -t 1
 	tmux paste-buffer
-	tmux last-pane
+  # Select panel 0. Panel 0 has vim
+	tmux selectp -t 0
+	# tmux last-pane
 else
 	echo "No screen multiplexer"
 	echo "(GNU screen nor TMUX)"

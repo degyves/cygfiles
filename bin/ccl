@@ -1,0 +1,6 @@
+#!/bin/bash
+# cd ~/lisp/ccl/ccl
+echo "Running under rlwrap"
+echo ""
+rlwrap  ~/lisp/ccl/ccl/wx86cl64.exe $@
+# cd -

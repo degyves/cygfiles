@@ -16,9 +16,11 @@ nametrans = lambda folder: { 'drafts': '[Gmail]/Drafts', 'sent':'[Gmail]/Sent Ma
 [Repository Gmail-Remote]
 maxconnections = 2
 type = Gmail
+; remotehost = localhost
 remoteuser = degyves@gmail.com
 remotepassfile = ~/.pass
 realdelete = no
+; cert_fingerprint = AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLDTyST0yFK9VZMFkQqtR420NZ6NfRdAD5L0GjA89KdkiK0cofgnTHkKBZRvkH+V69YvvREER71JQpIA1zUl7rk=
 sslcacertfile = /etc/ssl/certs/ca-bundle.crt
 nametrans = lambda folder: { '[Gmail]/Drafts': 'drafts', '[Gmail]/Sent Mail': 'sent', '[Gmail]/Starred': 'starred', '[Gmail]/Important': 'important', '[Gmail]/Spam': 'spam', '[Gmail]/Trash': 'trash', '[Gmail]/All Mail': 'archive', }.get(folder, folder)
 folderfilter = lambda folder: folder not in [ '[Gmail]/All Mail', '[Gmail]/Important', '[Gmail]/Starred',]

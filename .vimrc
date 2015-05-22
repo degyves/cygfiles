@@ -1,69 +1,74 @@
-:imap jj <Esc>
-syntax on
-set digraph
+  :imap jj <Esc>
+  syntax on
+  set digraph
 
-" Sin mensaje inicial
+  " Sin mensaje inicial
 
-" El cursor siempre en la línea media, cuando sea posible
-" para apagar, :set so=0
-set so=999
-" set so=0
-" El cursor siempre en la línea media, incluso si es fin del archivo
-" pero se anula el repintado automatico de la pantalla
-" set lazyredraw
-" nnoremap <C-U> 11kzz
-" nnoremap <C-D> 11jzz
-" nnoremap j jzz
-" nnoremap k kzz
-" nnoremap # #zz
-" nnoremap * *zz
-" nnoremap n nzz
-" nnoremap N Nzz
-" nnoremap G Gzz
+  " El cursor siempre en la línea media, cuando sea posible
+  " para apagar, :set so=0
+  " set so=999
+  set so=0
+  " El cursor siempre en la línea media, incluso si es fin del archivo
+  " pero se anula el repintado automatico de la pantalla
+  " set lazyredraw
+  " nnoremap <C-U> 11kzz
+  " nnoremap <C-D> 11jzz
+  " nnoremap j jzz
+  " nnoremap k kzz
+  " nnoremap # #zz
+  " nnoremap * *zz
+  " nnoremap n nzz
+  " nnoremap N Nzz
+  " nnoremap G Gzz
 
-" nnoremap <leader>hh :call ToggleHardMode()<CR>
+  " nnoremap <leader>hh :call ToggleHardMode()<CR>
 
-" Cambiar el leader, de "\" a ","
-let mapleader=","
+  " Cambiar el leader, de "\" a ","
+  let mapleader=","
 
-" Copiar nombre del archivo al portapapeles
-nmap <leader>f :let @"=expand("%")<CR>
+  " Copiar nombre del archivo al portapapeles
+  nmap <leader>f :let @"=expand("%")<CR>
 
-" Busqueda inteligente
-set incsearch
-set ignorecase
-set smartcase
-" hlsearch marca todas las ocurrencias. <leader>h para desmarcar.
-set hlsearch
-nmap <leader>h :noh<CR>
+  " Busqueda inteligente
+  set incsearch
+  set ignorecase
+  set smartcase
+  " hlsearch marca todas las ocurrencias. <leader>h para desmarcar.
+  set hlsearch
+  "nmap <leader>h :noh<CR>
+  " Desmarcar despues de updatetime
+  function! SearchHlClear()
+        let @/ = ''
+  endfunction
+  autocmd CursorHold,CursorHoldI * call SearchHlClear()
 
-" :set tags=tags;
+  " :set tags=tags;
 
-" Numeros de linea ( nn for toggle )
-" set number
-nmap <leader>n :setlocal number!<CR>
+  " Numeros de linea ( nn for toggle )
+  " set number
+  nmap <leader>n :setlocal number!<CR>
 
-" lisp, no mandar los parentesis de cierre hacia abajo
-let g:paredit_electric_return=0
-" lisp usar common lisp hyperspec local
-" let g:slimv_browser_cmd = "firefox"
-" let g:slimv_clhs_root = "file:///c:/cygwin64/home/VictorPolo/lisp/clhs/HyperSpec/Body/"
-let g:slimv_browser_cmd = "lynx"
-let g:slimv_clhs_root = "file:///home/VictorPolo/lisp/clhs/HyperSpec/Body/"
-let g:slimv_repl_syntax = 0
-" Apagar slimv para lisp: 
-let g:slimv_disable_lisp = 1
-let g:slimv_leader = "-"
-nmap <leader>r :redraw!<CR>
-autocmd BufRead, BufNewFile *.jar,*.war,*.rar set filetype=zip
+  " lisp, no mandar los parentesis de cierre hacia abajo
+  let g:paredit_electric_return=0
+  " lisp usar common lisp hyperspec local
+  let g:slimv_browser_cmd = "firefox"
+  " let g:slimv_clhs_root = "file:///c:/cygwin64/home/VictorPolo/lisp/clhs/HyperSpec/Body/"
+  " let g:slimv_browser_cmd = "lynx"
+  let g:slimv_clhs_root = "file:///home/VictorPolo/lisp/clhs/HyperSpec/Body/"
+  let g:slimv_repl_syntax = 0
+  " Apagar slimv para lisp: 
+  let g:slimv_disable_lisp = 1
+  let g:slimv_leader = "-"
+  nmap <leader>r :redraw!<CR>
 autocmd FileType lisp let g:lisp_rainbow=1
 autocmd FileType rkt let g:lisp_rainbow=1
-
 if empty($BUFFERFILE)
 	let g:vimconsolebuff = $HOME . "/.consolebuff"
 else
 	let g:vimconsolebuff = ($BUFFERFILE)
 endif
+
+let g:frepl= ":POP"
 
 let g:consolemuxfound = 1
 if empty($STY) && empty($TMUX)
@@ -71,28 +76,37 @@ if empty($STY) && empty($TMUX)
 endif
 
 " lisp  - copiar de VIM a /tmp/screen-exchange
-function! PasteToConsoleMultiplexer( singleline )
+" Si singleline = 1, enviar la línea actual al REPL
+" Si singleline no está seteado, enviar el párrafo actual al REPL
+" Si singleline = 2, enviar line al REPL
+function! PasteToConsoleMultiplexer( singleline, line )
 	if g:consolemuxfound
 		if a:singleline
-			normal yy
+			if a:singleline == 1
+				normal yy
+			elseif a:singleline == 2
+        " :echom "LINE TO REPL2"
+				:call setreg("", a:line)
+			endif
 		else
-			normal vapy
+			normal vapy%
 		endif
 		:call writefile( split(@", "\n"), g:vimconsolebuff )
 		:silent !consoleMultiplexerPasteFunction & > /dev/null
 		:redraw!
-		" :echo "Paste to console multiplexer"
+		:echo "Paste to console multiplexer"
 	else
-		" :echo "Err: No console multiplexer"
+		:echo "Err: No console multiplexer"
 	endif
 endfunction
 " Copiar una sola linea
-nmap <C-f> :call PasteToConsoleMultiplexer(0)<CR>
+nmap <C-f> :call PasteToConsoleMultiplexer(0, "")<CR>
 " Copiar un bloque de texto
-nmap <C-c> :call PasteToConsoleMultiplexer(1)<CR>
 " y a partir de alli, llamar a bin/gnuScreenPasteFunction
 " de forma que se pegue en la ventana contigua de GNU Screen
-" nmap <leader>1 :let @" = join(readfile( $BUFFERFILE ), "\n")<CR>
+nmap <C-c> :call PasteToConsoleMultiplexer(1, "")<CR>
+"  Enviar mensaje de abortar al REPL
+nmap <C-x> :call PasteToConsoleMultiplexer(2, g:frepl)<CR>
 " Abrir el REPL de lisp en modo vertical
 " nmap <leader>k <leader>c<CR>:only<CR><C-w>v<CR><C-w>w<CR>L<CR>
 
@@ -101,7 +115,7 @@ function! g:ToggleColorColumn()
 	if &colorcolumn != 0
 		:setlocal colorcolumn=0
 	else
-		:setlocal colorcolumn=80
+		:setlocal colorcolumn=72
 	endif
 endfunction
 nnoremap <silent> <leader>8 :call g:ToggleColorColumn()<CR>
@@ -167,6 +181,7 @@ function! CheckFileEncoding()
 	endif
 endfunction
 
+au BufNewFile,BufRead *.maxima,*.wxmx set filetype=maxima
 au BufNewFile,BufRead *.fs set filetype=fsharp
 au BufNewFile,BufRead *.fsx set filetype=fsharp
 au BufNewFile,BufRead *.fsi set filetype=fsharp
@@ -174,17 +189,30 @@ au BufNewFile,BufRead *.mxml set filetype=mxml
 au BufNewFile,BufRead *.as set filetype=actionscript
 au BufNewFile,BufRead *.vcf set filetype=vcard
 au BufNewFile,BufRead *.js set filetype=javascript
+au BufNewFile,BufRead *.asd  set filetype=lisp
+au BufNewFile,BufRead *.jar,*.war,*.rar set filetype=zip
+au BufNewFile,BufRead *.proj,*.csproj set filetype=xml
 let g:xml_syntax_folding=1
 au FileType mxml setlocal foldmethod=manual
 au FileType actionscript setlocal foldmethod=manual
 au BufWinEnter *.F90 call CheckFileEncoding()
 au BufWinEnter *.f90 call CheckFileEncoding()
+" Cuando el archivo sea escrito
+au BufWritePost *.tex :call Refresh_Pdf()
+" Cuando el archivo sea modificado
+" au TextChanged,TextChangedI *tex :call Refresh_Pdf()
+function! Refresh_Pdf()
+  :write 
+  :silent !pdflatex -output-directory=%:p:h % >/dev/null
+  :redraw!
+endfunction
+
 
 autocmd BufWriteCmd *.html,*.css,*.gtpl :call Refresh_firefox()
 function! Refresh_firefox()
 	"echom "Refresh firefox!"
 	if &modified
-		"echom "Modified!"
+		echom "Modified!"
 		write
 		silent !echo 'vimYo = content.window.pageYOffset;
 					\ vimXo = content.window.pageXOffset;
@@ -230,6 +258,7 @@ autocmd FileType fortran set expandtab
 autocmd FileType fsharp set expandtab|set tabstop=2|set shiftwidth=2|set softtabstop=2|set autoindent
 autocmd FileType java set expandtab|set tabstop=4|set shiftwidth=4|set softtabstop=4|set autoindent
 autocmd FileType javascript set expandtab|set tabstop=4|set shiftwidth=4|set softtabstop=4|set autoindent
+autocmd FileType vim set expandtab|set tabstop=2|set shiftwidth=2|set softtabstop=2|set autoindent
 
 " :bufdo ejecuta algo para todos los buffers
 " bd cierra un buffer
@@ -308,6 +337,7 @@ endif
 " let g:VimPyServer_autostart=0
 " let g:VimPyServer_port=9871
 " let g:VimPyServer_host='127.0.0.1'
+
 
 " Ejecutar pathogen
 execute pathogen#infect()
