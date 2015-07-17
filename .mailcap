@@ -1,3 +1,4 @@
+image/* view %s 
 text/html; /usr/bin/lynx -dump -width=78 -nolist %s; copiousoutput; needsterminal; nametemplate=%s.html
 application/excel; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s
 application/ms-exc; $HOME/.mutt/mutt_bgrun "/cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 4/program/soffice.exe" %s

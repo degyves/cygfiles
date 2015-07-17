@@ -20,12 +20,12 @@
   set smartcase
   " hlsearch marca todas las ocurrencias. <leader>h para desmarcar.
   set hlsearch
-  "nmap <leader>h :noh<CR>
+  nmap <leader>h :noh<CR>
   " Desmarcar despues de updatetime
-  function! SearchHlClear()
-        let @/ = ''
-  endfunction
-  autocmd CursorHold,CursorHoldI * call SearchHlClear()
+  "function! SearchHlClear()
+  "      let @/ = ''
+  "endfunction
+  "autocmd CursorHold,CursorHoldI * call SearchHlClear()
 
   " :set tags=tags;
 
@@ -64,9 +64,10 @@ endif
 " Si singleline = 1, enviar la línea actual al REPL
 " Si singleline no está seteado, enviar el párrafo actual al REPL
 " Si singleline = 2, enviar line al REPL
+" Si singleline = 3, enviar line a putclip
 function! PasteToConsoleMultiplexer( singleline, line )
 	if g:consolemuxfound
-		if a:singleline
+		if a:singleline && a:singleline != 3
 			if a:singleline == 1
 				normal yy
 			elseif a:singleline == 2
@@ -77,13 +78,19 @@ function! PasteToConsoleMultiplexer( singleline, line )
 			normal vapy%
 		endif
 		:call writefile( split(@", "\n"), g:vimconsolebuff )
-		:silent !consoleMultiplexerPasteFunction & > /dev/null
+    if a:singleline && a:singleline == 3
+      :silent !consoleMultiplexerPasteFunction & > /dev/null
+    else
+      :silent !consoleMultiplexerToPutclip & > /dev/null
+    endif
 		:redraw!
 		:echo "Paste to console multiplexer"
 	else
 		:echo "Err: No console multiplexer"
 	endif
 endfunction
+" En vez de enviar a REPL enviar párrafo a putclip
+nmap <C-p> :call PasteToConsoleMultiplexer(0, "")<CR>
 " Copiar una sola linea
 nmap <C-f> :call PasteToConsoleMultiplexer(0, "")<CR>
 " Copiar un bloque de texto
@@ -177,6 +184,7 @@ au BufNewFile,BufRead *.js set filetype=javascript
 au BufNewFile,BufRead *.asd  set filetype=lisp
 au BufNewFile,BufRead *.jar,*.war,*.rar set filetype=zip
 au BufNewFile,BufRead *.proj,*.csproj set filetype=xml
+au BufNewFile,BufRead Web.config set filetype=xml
 let g:xml_syntax_folding=1
 au FileType mxml setlocal foldmethod=manual
 au FileType actionscript setlocal foldmethod=manual

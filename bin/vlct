@@ -1,0 +1,3 @@
+#!/bin/bash
+vlc --rc-host localhost:7777 --intf rc &
+nc localhost 7777

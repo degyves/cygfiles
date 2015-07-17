@@ -1,0 +1,3 @@
+#!/bin/bash
+IMG=$(cygpath -w $@)
+mspaint $IMG
