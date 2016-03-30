@@ -1,0 +1,24 @@
+[user]
+	name = Victor Polo
+	email = degyves@gmail.com
+[color]
+	ui = auto
+[push]
+	default = simple
+[credential]
+	helper = cache --timeout 36000
+[alias]
+	co = checkout
+	com = checkout master
+	cot = checkout tmp
+	rbm = rebase master
+  mt = merge tmp
+	br = branch
+	ci = commit
+	st = status
+	a = add
+	cm = commit -m
+	pl = pull
+	ph = push
+	bdt = branch -d tmp
+  cbt = checkout -b tmp
