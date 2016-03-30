@@ -14,7 +14,13 @@ if [ -n "$STY" ]; then
 elif [ -n "$TMUX" ]; then
 	tmux load-buffer ~/.consolebuff
   # Select panel 1. Panel 1 has the REPL
-	tmux selectp -t 1
+	# tmux selectp -t 1
+  #
+  # Better, select the previous pane
+  # This allows to have several REPLs
+  # in the same time
+  # (e.g. Python, bash, Ruby, Lisp, etc)
+  tmux last-pane
 	tmux paste-buffer
   # Select panel 0. Panel 0 has vim
 	tmux selectp -t 0

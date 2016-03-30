@@ -1,0 +1,3 @@
+#!/bin/sh
+find $1 -not \( -name "target" -prune \) \( -name "*.java" \) -exec vim {} +
+

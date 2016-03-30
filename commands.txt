@@ -1,3 +1,7 @@
+*** Presentaciones
+
+  mdp archivo.markdown
+
 *** VIM
 	
     Follow vim-link: C-] (without AltGr)
@@ -26,6 +30,12 @@
 
   grep -rnw 'directory' -e "pattern"
 
+
+ *** Mostrar archivos con cualquier texto que contenga text-toke,
+precedido y continuado por cualquier texto:
+
+  grep -rnw "./" -e ".*text-toke.*"|
+ 
  *** Otros ejemplos:
 
   grep -rinw 'directory' -e "pattern"

@@ -1,0 +1,7 @@
+#!/bin/bash
+tmux selectp -t 1
+# sesión 0, panel 1
+tmux send-keys -t \$0.1 "mvn-color -Djava.util.logging.config.file=src/main/resources/logging.properties package" Enter
+# Select panel 0. Panel 0 has vim
+tmux selectp -t 0
+# tmux last-pane

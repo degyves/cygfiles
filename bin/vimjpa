@@ -1,0 +1,7 @@
+#!/bin/sh
+find $1 -not \( -name "tmp" -prune \) \( \
+  -not \( -name "*resources*" -prune \) \
+  -not \( -name "classes" -prune \) \
+	-name "*.java" -or \
+       	-name "*.g4" \) -exec vim {} +
+

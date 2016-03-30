@@ -20,8 +20,10 @@ export sapp_home="$HOME/jee6/projects/sapp3"
 #export PFUNIT=/home/krMemo/fortran/pFUnit
 export JAVA_HOME=$HOME/java
 export WWW_HOME=www.google.com.mx
-export S=$VPS_USER@$VPS_IP
-export W=~/jee6/wildfly/wildfly-8.2.0.Final
+export S="$VPS_USER@$VPS_IP"
+export T="$S -p 7252"
+export G="git@$VPS_IP"
+export W=~/jee6/wildfly/wildfly-9.0.2.Final
 export A=~/jee6/activiti/activiti-5.17.0
 export EDITOR=vp
 
@@ -75,8 +77,6 @@ export HISTCONTROL="ignoredups"
 # alias rm='rm -i'
 # alias cp='cp -i'
 # alias mv='mv -i'
-alias tm="task sm"
-alias tam="task add project:modex"
 
 # Default to human readable figures
 # alias df='df -h'
@@ -95,10 +95,20 @@ alias ls='ls --group-directories-first -hF --color=yes --indicator-style=none'  
 # alias la='ls -A'                              # all but . and ..
 # alias l='ls -CF'                              #
 alias ts='tree -L 1'
+alias mvn=mvn-color
 
 
 # Functions
 # #########
+
+# alias t='task "$@" project:$(basename $PWD)'
+
+ta(){
+    base=$(basename $(PWD))
+    task "$@" project:$base
+}
+alias t='ta list'
+alias g='git'
 
 # Some example functions
 # function settitle() { echo -ne "\e]2;$@\a\e]1;$@\a"; }

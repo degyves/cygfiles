@@ -1,0 +1,2 @@
+printf "On choose url, put:  ftp://ftp.cygwinports.org/pub/cygwinports"
+cygstart -- ./setup-x86.exe -K http://cygwinports.org/ports.gpg

@@ -1,2 +1,2 @@
 #!/bin/bash
-"/cygdrive/c/Program Files (x86)/VideoLAN/VLC/vlc.exe" $@
+"/cygdrive/c/Program Files/VideoLAN/VLC/vlc.exe" $@
