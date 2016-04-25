@@ -36,11 +36,12 @@ mvn-in-colors() {
   read mvn_exit_code < $tmp_file
   \rm -f $tmp_file
   echo mvn_exit_code $mvn_exit_code
-  return $mvn_exit_code
+  exit $mvn_exit_code
 }
 mvn-in-colors "$@"
 status=$?
-if type espeak > /dev/null; then 
+ESPEAK_ON=0
+if [ $ESPEAK_ON -eq 1 ]; then 
 	if [[ $status != 0 ]]; then 
 		echo 'Maven: errors found in '$(basename $(PWD))|espeak -a 50 -p 20 &
 		echo 'Maven: errors found in '$(basename $(PWD))'/'

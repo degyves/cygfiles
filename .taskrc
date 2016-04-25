@@ -27,8 +27,8 @@ data.location=~/.task
 
 report.list.labels=Id,Proj,Pri,Due,Active,Age,Tag,Description
 report.list.columns=id,project,priority,due,start.active,entry.age,tags,description
-taskd.certificate=\/home\/VictorPolo\/.task\/victor.cert.pem
-taskd.key=\/home\/VictorPolo\/.task\/victor.key.pem
-taskd.ca=\/home\/VictorPolo\/.task\/ca.cert.pem
+taskd.certificate=\/Users\/victor\/.task\/victor.cert.pem
+taskd.key=\/Users\/victor\/.task\/victor.key.pem
+taskd.ca=\/Users\/victor\/.task\/ca.cert.pem
 taskd.credentials=SociosTecnologicos\/victor\/fe767751-fa60-4dc4-8f45-8d6316c6def8
 taskd.server=104.156.237.140:53589

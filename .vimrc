@@ -42,6 +42,7 @@
 
   " ctags -R --language-force=java
   autocmd FileType java set tags=~/jee6/docs/src/tags,~/itc/scaffold/tags,~/itc/interpreter/tags,~/itc/util/tags
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
   " Numeros de linea ( nn for toggle )
   set number
@@ -142,8 +143,11 @@ nmap <C-x> :call PasteToConsoleMultiplexer(2, g:frepl)<CR>
 " nmap <leader>k <leader>c<CR>:only<CR><C-w>v<CR><C-w>w<CR>L<CR>
 
 set tw=80
-set formatoptions+=t
-set fo+=a
+" Estas tres líneas dan problemas en nvim: una de ellas
+" hace que inmediatamente después de escribir, se unan las líneas
+" del búfer actual:
+" set formatoptions+=t
+" set fo+=a
 " Colorear la columna 80 (solo Vim 8.3) ( <leader>8 toggle)
 function! g:ToggleColorColumn()
 	if &colorcolumn != 0
@@ -225,6 +229,7 @@ function! CheckFileEncoding()
 	endif
 endfunction
 
+au BufNewFile,BufRead *.gradle set filetype=groovy
 au BufNewFile,BufRead *.maxima,*.wxmx set filetype=maxima
 au BufNewFile,BufRead *.fs set filetype=fsharp
 au BufNewFile,BufRead *.fsx set filetype=fsharp
@@ -389,13 +394,40 @@ if !has("gui_running")
 	:map <F5> :emenu <C-Z>
 endif
 
-" let g:VimPyServer_autostart=0
+let g:VimPyServer_autostart=0
 " let g:VimPyServer_port=9871
 " let g:VimPyServer_host='127.0.0.1'
 
-
-
 " Ejecutar pathogen
 execute pathogen#infect()
+
+" Vim-rooter
+let g:rooter_patterns = ['Rakefile', 'pom.xml', 'build.gradle']
+let g:rooter_change_directory_for_non_project_files = 'home'
+
+" call plug#begin('~/.vim/plugged')
+" Para instalar plugins, ejecutar :PlugInstall
+" Para quitar plugins borrados: :PlugClean
+" Para actualizar plugins :PlugUpdate
+" Para actualizar vim-plug: :PlugUpgrade
+call plug#begin('~/.config/nvim/plugged')
+Plug 'benekastah/neomake'
+Plug 'bkad/CamelCaseMotion'
+Plug 'artur-shaik/vim-javacomplete2'
+" Plug 'Shougo/deoplete'
+call plug#end()
+
+" CamelCaseMotion
+call camelcasemotion#CreateMotionMappings('<leader>')
+
+" <C-x> <C-o>, <C-p>, <C-n>
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
+" Call neomake for every write in any file
+" Check the list of errors with ":copen" or ":lopen"
+autocmd! BufWritePost * Neomake!
 
 let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docx,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx'

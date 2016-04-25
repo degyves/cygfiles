@@ -1,1 +1,2 @@
-/cygdrive/c/Program Files/Firefox Developer Edition/firefox.exe
+#!/bin/bash
+/Applications/FirefoxDeveloperEdition.app/Contents/MacOS/firefox $@ &

@@ -10,24 +10,23 @@ unset TEMP
 export TEMP=~/tmp
 export PS1='\[\e[1;32m\]$(whoami) $(date +%R) $(pwd)\n\$\[\e[0m\] '
 export LS_COLORS="$LS_COLORS:di=02;36"
-export ANT_HOME="$(echo $HOME|sed 's/ /\\ /g')/ant"
-export GF_HOME=/cygdrive/c/glassfish-4.0/glassfish
 echo $ANT_HOME
 export ANT_HOME=$HOME/ant
 export domain1_home=$HOME/glassfish4/glassfish/domains/domain1
 export sapp_home="$HOME/jee6/projects/sapp3"
 #export MAVEN_OPTS="-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=9999"
 #export PFUNIT=/home/krMemo/fortran/pFUnit
-export JAVA_HOME=$HOME/java
+#export JAVA_HOME=$HOME/java
 export WWW_HOME=www.google.com.mx
 export S="$VPS_USER@$VPS_IP"
 export T="$S -p 7252"
 export G="git@$VPS_IP"
-export W=~/jee6/wildfly/wildfly-9.0.2.Final
-export A=~/jee6/activiti/activiti-5.17.0
+export W=~/jee7/wildfly
 export EDITOR=vp
+export HOMEBREW_GITHUB_API_TOKEN=9e361bb4a913c47927fba8c8439ca3a8df0b6d60 
+#export TERM=xterm-256
 
-export PATH=~/sc:.:$ANT_HOME/bin:$JAVA_HOME/bin:~/utils/graphviz/bin:$GF_HOME/bin:$PATH:$HOME/privatebin:$HOME/privatebin/sql:~/offlineimap/
+export PATH=$PATH:$HOME/jee7/wildfly/bin:$HOME/bin:$HOME/privatebin/sql:~/offlineimap/
 # #############
 
 # See man bash for more options...
@@ -88,7 +87,9 @@ export HISTCONTROL="ignoredups"
 # alias grep='grep --color'                     # show differences in colour
 
 # Some shortcuts for different directory listings
-alias ls='ls --group-directories-first -hF --color=yes --indicator-style=none'                 # classify files in colour
+# alias ls='ls --group-directories-first -hF --color=yes --indicator-style=none'                 # classify files in colour
+# alias ls='ls --group-directories-first -hF -G --indicator-style=none'                 # classify files in colour
+alias ls='ls -G'                 # classify files in colour
 # alias dir='ls --color=auto --format=vertical'
 # alias vdir='ls --color=auto --format=long'
 # alias ll='ls -l'                              # long list

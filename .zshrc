@@ -1,6 +1,11 @@
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/VictorPolo/.oh-my-zsh
+export ZSH=/Users/victor/.oh-my-zsh
 
+# VPS IP and user
+export VPS_USER=victor
+export VPS_IP=104.156.237.140
+export S="$VPS_USER@$VPS_IP"
+export HOMEBREW_GITHUB_API_TOKEN=9e361bb4a913c47927fba8c8439ca3a8df0b6d60
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -53,7 +58,7 @@ plugins=(git dircycle fasd mvn taskwarrior vi-mode)
 
 # User configuration
 
-  export PATH="/home/VictorPolo/bin:/home/VictorPolo/bin:/home/VictorPolo/sc:.:/home/VictorPolo/ant/bin:/home/VictorPolo/java/bin:/home/VictorPolo/utils/graphviz/bin:/cygdrive/c/glassfish-4.0/glassfish/bin:/home/VictorPolo/bin:/home/VictorPolo/bin:/home/VictorPolo/sc:.:/home/VictorPolo/ant/bin:/home/VictorPolo/java/bin:/home/VictorPolo/utils/graphviz/bin:/cygdrive/c/glassfish-4.0/glassfish/bin:/usr/local/bin:/usr/bin:/cygdrive/c/ProgramData/Oracle/Java/javapath:/cygdrive/c/Program Files (x86)/CommonQt:/cygdrive/c/WINDOWS/system32:/cygdrive/c/WINDOWS:/cygdrive/c/WINDOWS/System32/Wbem:/cygdrive/c/WINDOWS/System32/WindowsPowerShell/v1.0:/cygdrive/c/Program Files/Microsoft SQL Server/100/Tools/Binn:/cygdrive/c/Program Files/Microsoft SQL Server/100/DTS/Binn:/cygdrive/c/Program Files (x86)/Microsoft SQL Server/100/Tools/Binn/VSShell/Common7/IDE:/home/VictorPolo/jee6/maven/bin:/home/VictorPolo/jee7/gradle/bin:/home/VictorPolo/ffmpeg/bin:/cygdrive/c/Program Files/Microsoft SQL Server/110/Tools/Binn:/cygdrive/c/Program Files (x86)/Microsoft SQL Server/100/Tools/Binn:/cygdrive/c/sbcl-1.2.7:/cygdrive/c/Program Files (x86)/Microsoft SDKs/TypeScript/1.0:/cygdrive/c/Program Files/Microsoft SQL Server/120/Tools/Binn:/cygdrive/c/Program Files/nodejs:/cygdrive/c/Program Files (x86)/Skype/Phone:/cygdrive/c/Tcl/bin:/cygdrive/c/lyx/miktex/miktex/bin:/usr/bin:/cygdrive/c/Program Files (x86)/Microsoft SDKs/F#/3.1/Framework/v4.0:/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319:/cygdrive/c/Program Files (x86)/Mono-3.2.3/bin:/cygdrive/c/WINDOWS/system32:/cygdrive/c/WINDOWS:/cygdrive/c/WINDOWS/System32/Wbem:/cygdrive/c/WINDOWS/System32/WindowsPowerShell/v1.0:/cygdrive/c/Program Files/Microsoft SQL Server/100/Tools/Binn:/cygdrive/c/Program Files/Microsoft SQL Server/100/DTS/Binn:/cygdrive/c/Program Files (x86)/Microsoft SQL Server/100/Tools/Binn/VSShell/Common7/IDE:/home/VictorPolo/jee6/maven/bin:/home/VictorPolo/ffmpeg/bin:/cygdrive/c/Program Files/nodejs:/cygdrive/c/Program Files/Microsoft SQL Server/110/Tools/Binn:/cygdrive/c/Program Files (x86)/Microsoft SDKs/TypeScript/1.0:/cygdrive/c/Program Files (x86)/Microsoft SQL Server/100/Tools/Binn:/cygdrive/c/sbcl-1.2.7:/home/VictorPolo/jee6/jboss-forge/forge-distribution-2.20.1.Final/bin:/home/VictorPolo/jee6/wildfly/wildfly-9.0.2.Final/bin:/cygdrive/c/Program Files/PostgreSQL/9.4/bin:/home/VictorPolo/.vim/bundle/VimPyServer/bin:/cygdrive/c/Users/Victor Polo/AppData/Roaming/npm:/cygdrive/c/Users/Victor Polo/AppData/Local/Android/sdk/tools:/cygdrive/c/Users/Victor Polo/AppData/Local/Android/sdk/platform-tools:/usr/lib/lapack:/home/VictorPolo/privatebin:/home/VictorPolo/privatebin/sql:/home/VictorPolo/offlineimap/:/home/VictorPolo/privatebin:/home/VictorPolo/privatebin/sql:/home/VictorPolo/offlineimap/"
+export PATH="/Users/victor/bin:/Users/victor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/victor/bin:/Users/victor/jee7/wildfly/bin:/Users/victor/privatebin/sql:/Users/victor/offlineimap/:/Users/victor/jee7/wildfly/bin:/Users/victor/bin:/Users/victor/privatebin/sql:/Users/victor/offlineimap/:."
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -84,7 +89,8 @@ export LANG=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 bindkey -v
 bindkey "jj" vi-cmd-mode
-alias ls=' ls --color=auto'
+# alias ls=' ls --color=auto'
+alias ls=' ls -G'
 alias cd=' cd'
 
 # Find in history with regexp

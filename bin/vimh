@@ -1,0 +1,6 @@
+#!/bin/sh
+find $1 -not \( -name "app" -prune \) \
+	-not \( -name "tmp" -prune \) \
+	-not \( -name "app_made" -prune \) \( \
+	-type f \) -exec vim {} +
+

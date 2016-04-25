@@ -1,6 +1,6 @@
 #!/bin/bash
 # cd ~/lisp/ccl/ccl
 echo "Running under rlwrap"
-echo ""
-rlwrap  ~/lisp/ccl/ccl/wx86cl64.exe $@
+CCL_BIN=~/ccl/dx86cl64
+rlwrap  $CCL_BIN $@
 # cd -
