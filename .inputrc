@@ -17,3 +17,6 @@ $if mode=vi
     set keymap vi-insert                          
     "jj": vi-movement-mode # remap escape   
 $endif 
+
+"\C-t": re-read-init-file
+

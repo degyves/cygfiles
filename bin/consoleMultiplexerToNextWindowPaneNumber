@@ -1,0 +1,7 @@
+#!/bin/bash
+	tmux load-buffer ~/.consolebuff
+  tmux next-window
+  tmux select-pane -t $@
+  tmux paste-buffer
+  tmux previous-window
+

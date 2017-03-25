@@ -1,0 +1,2 @@
+#!/bin/sh 
+find $1 -not \( -name "target" -prune \)  -not \( -name "tmp" -prune \)  -not \( -name "__pycache__" -prune \)  -not \( -name ".git" -prune \)  -not \( -name "db.*" -prune \) \( -name "*.py" -or -name "*.asciidoc" -or -name "*.txt" -or -name "README.*"  -or -name "*.css" -or -name "*.html"  -or -name "*.js" \) -exec nvim {} + 

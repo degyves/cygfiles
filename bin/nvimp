@@ -5,6 +5,7 @@ find $1 -not \( -name "target" -prune \) \
 	-not \( -name ".git" -prune \) \
 	-not \( -name ".gradle" -prune \) \( \
 	-name "*.xml" -or \
+	-name "*.html" -or \
 	-name "build.gradle" -or \
 	-name "*.asciidoc" -or \
 	-name "*.java" -or \

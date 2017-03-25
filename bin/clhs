@@ -1,0 +1,10 @@
+#!/bin/bash
+# phantomjs ~/phantomjs/parse.js $1 | w3m-nvim-lisp.py
+if [ "$#" -ne 1 ]; then
+  phantomjs ~/phantomjs/parse.js > ~/phantomjs/parsed.out
+else 
+  # printf "Args: $@\n"
+  # read
+  cat ~/phantomjs/parsed.out | w3m-nvim-lisp.py $@
+fi
+

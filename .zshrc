@@ -58,7 +58,7 @@ plugins=(git dircycle fasd mvn taskwarrior vi-mode)
 
 # User configuration
 
-export PATH="/Users/victor/bin:/Users/victor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/victor/bin:/Users/victor/jee7/wildfly/bin:/Users/victor/privatebin/sql:/Users/victor/offlineimap/:/Users/victor/jee7/wildfly/bin:/Users/victor/bin:/Users/victor/privatebin/sql:/Users/victor/offlineimap/:."
+export PATH="/Users/victor/bin:/Users/victor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/victor/bin:/Users/victor/jee7/wildfly/bin:/Users/victor/privatebin/sql:/Users/victor/offlineimap/:/Users/victor/jee7/wildfly/bin:/Users/victor/bin:/Users/victor/privatebin/sql:/Users/victor/offlineimap/:/Users/victor/itc/apache-tomcat-7.0.69/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh

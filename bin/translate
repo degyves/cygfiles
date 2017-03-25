@@ -1,0 +1,5 @@
+#!/bin/bash
+cd ~/util/bash-tools/translate-shell
+./translate $@
+cd -
+

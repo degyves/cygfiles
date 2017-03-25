@@ -3,4 +3,4 @@ if exists("current_compiler")
 endif
 let current_compiler = "xmllint"
 setlocal makeprg=xmllint\ --schema\ ~/interprete/ModeloLogico.xsd\ --noout\ %
-setlocal errorformat=%f:%l:\ %m
+setlocal errorformat=%f:%l.%c\ %m

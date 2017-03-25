@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ "$#" -lt 3 ]
+then
+    printf "Usage:"
+    printf "\tbible-tmux-statusbar -file <multiline-text-file> <fifo>\n"
+    printf "\tbible-tmux-statusbar -stock <stock-abbrev> <fifo>\n"
+    exit 1
+fi
+
+if [ "$1" == "-file" ] 
+then
+    while true
+    do
+        IFS=$'\n' read -d '' -r -a multiline< $2 $3
+        for line in "${multiline[@]}"
+        do 
+            exec 3>$3
+            printf "${line}">&3
+            exec 3>&-
+            sleep 2
+        done
+    done
+else
+    while true
+    do
+        exec 3>$3
+        wget -O - "http://www.google.com/finance?q=$2"| grep ref_ -m 1\
+            | sed "s/<\/[^>]*>//g"|sed "s/<[^>]*>/ $2: /g"> $3
+        exec 3>&-
+        sleep 60
+    done
+fi
+

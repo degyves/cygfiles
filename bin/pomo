@@ -1,0 +1,49 @@
+#!/bin/bash
+
+MIN=0
+
+if [ $# -ne 1 ]; then
+  MIN=25
+else
+  MIN=$1
+fi
+
+FIFO=/Users/victor/pomofifo
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  echo "linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  # for i in $(seq $(($1 * 60)) -1 1); do echo "$i, "; sleep 1; done
+  # countdown $MIN
+  # say "Pomodoro iniciado."
+  ~/programming/ncurses/timer/pomodoro $MIN --fifo=$FIFO --countdown-only
+  if [[ $? != 0 ]]; then 
+    say "Pomodoro cancelado."
+  else
+    # say "Pomodoro terminado. Toma un descanso por favor."
+    osascript -e 'tell app "System Events" to display dialog "Pomodoro terminado. Toma un descanso."'
+  fi
+  # afplay /System/Library/Sounds/Funk.aiff
+  #echo -e "\n\nMac Finder should show a popup"
+  # osascript -e 'tell app "Finder" to display dialog "Look away. Rest your eyes"'
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+        # POSIX compatibility layer and Linux environment emulation for Windows
+  echo "cygwin"
+  return 1
+elif [[ "$OSTYPE" == "msys" ]]; then
+        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+  echo "msys-win"
+  return 1
+elif [[ "$OSTYPE" == "win32" ]]; then
+        # I'm not sure this can happen.
+  echo "win"
+  return 1
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+        # ...
+  echo "freebsd"
+  return 1
+else
+  # Unknown.
+  echo "Unknown"
+  return 1
+fi

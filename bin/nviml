@@ -1,0 +1,16 @@
+#!/bin/sh
+find $1 -not \( -name "target" -prune \) \
+	-not \( -name "tmp" -prune \) \
+	-not \( -name "build" -prune \) \
+	-not \( -name ".git" -prune \) \
+	-not \( -name ".gradle" -prune \) \( \
+	-name "*.xml" -or \
+	-name "*.css" -or \
+	-name "*.html" -or \
+	-name "*.markdown" -or \
+	-name "*.sql" -or \
+	-name "*.lisp" -or \
+	-name "*.asd" -or \
+	-name "*.g4" \) \
+	-exec nvim {} +
+

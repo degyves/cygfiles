@@ -1,0 +1,1 @@
+pomo --no-ncurses --fifo=/Users/victor/pomofifo --unix-socket --countdown-only

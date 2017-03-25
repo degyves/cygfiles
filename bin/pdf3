@@ -1,0 +1,3 @@
+#!/bin/bash
+/Applications/Adobe\ Acrobat\ Reader\ DC.app/Contents/MacOS/AdobeReader "$@" &
+

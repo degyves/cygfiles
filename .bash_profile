@@ -78,3 +78,26 @@ fi
 # if [ -d "${HOME}/info" ]; then
 #   INFOPATH=${HOME}/info:${INFOPATH}
 # fi
+
+if which jenv > /dev/null; then eval "$(jenv init - )"; fi
+
+
+##
+# Your previous /Users/victor/.bash_profile file was backed up as /Users/victor/.bash_profile.macports-saved_2016-06-23_at_18:49:41
+##
+
+# MacPorts Installer addition on 2016-06-23_at_18:49:41: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+
+##
+# Your previous /Users/victor/.bash_profile file was backed up as /Users/victor/.bash_profile.macports-saved_2016-06-23_at_18:56:32
+##
+
+# MacPorts Installer addition on 2016-06-23_at_18:56:32: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+# export LC_ALL=es_MX.UTF-8
+# export LANG=es_MX.UTF-8

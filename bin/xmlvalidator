@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ~/interprete/validator/
+mvn exec:java -Dexec.mainClass=com.itcomplements.validator.App -Dexec.args="$@ \
+./ModeloLogicoCaseSensitive.xsd" >/dev/null
+STATUS=$?
+cd - > /dev/null
+exit $STATUS

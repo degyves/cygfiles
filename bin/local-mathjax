@@ -1,0 +1,8 @@
+#!/bin/bash
+echo $1
+rm -f $1.old
+mv $1 $1.old
+cat $1.old \
+| sed 's/.*https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/mathjax.*/<script src="\/Users\/victor\/util\/mathjax\/mathjax\/2.6.0\/MathJax.js?config=TeX-MML-AM_HTMLorMML"><\/script>/' \
+| sed 's/.*ajax.googleapis.com\/ajax\/libs\/jquery.*/<script type="text\/javascript" src="\/Users\/victor\/util\/mathjax\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.4.2\/jquery.min.js"><\/script>/' \
+| sed 's/.*fonts.googleapis.com.*/<link rel="stylesheet" href="\/Users\/victor\/util\/mathjax\/fonts.googleapis.com\/google-fonts-local.css"#{slash}>/' > $1

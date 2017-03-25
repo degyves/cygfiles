@@ -1,1 +1,1 @@
-compiler xmllint
+compiler xmlvalidator

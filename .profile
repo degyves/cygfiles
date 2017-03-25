@@ -28,6 +28,8 @@ else
  PS1COLOR=3
 fi
 # PS1="\[$(tput setaf $PS1COLOR)\]\u@\H:\w\n\$\[$(tput op)\] "
+
+
 PS1="$(tput setaf $PS1COLOR)$(logname)@$(hostname -s):$(date +%R) $PWD
 $ $(tput op)"
 PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games:$HOME/forge/bin:$JAVA_HOME/bin:.
@@ -47,4 +49,5 @@ function t {
 }
 # en ksh no es necesario exportar la funcion
 # export -f t
+
 

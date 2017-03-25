@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# OSX requires `brew install coreutils`
+DATE=date
+
+if [ $# -ne 1 ]; then
+  echo "Error. Se espera: minutos."
+  exit -1
+fi
+
+MIN=$(( $1 * 60 ))
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+ DATE=date
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+ DATE=gdate
+ $DATE >/dev/null 2>&1 || { echo >&2 "Error: gdate it's not installed.  Use 'brew install coreutils'."; exit 1; }
+fi
+
+function countdown(){
+   date1=$((`$DATE +%s` + $1)); 
+   while [ "$date1" -ge `$DATE +%s` ]; do 
+     echo -ne "$($DATE -u --date @$(($date1 - `$DATE +%s`)) +%H:%M:%S)\r";
+     sleep 0.1
+   done
+}
+
+countdown $MIN
+
