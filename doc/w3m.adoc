@@ -1,0 +1,7 @@
+New tab: `T`
+Prev/next tab: `{,}`
+Go to url: `U`
+Links menu: `Esc-m`, quit with `left-arrow`
+Tabs menu: `Esc-t`, quit with `left-arrow`
+PgDown: `Space`, PgUp: `b`
+Back: `B`

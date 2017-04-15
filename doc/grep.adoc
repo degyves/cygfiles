@@ -1,0 +1,9 @@
+Encontrar un texto en subdirectorios, solo relacionados a javascript
+
+grep -R "tab\.fulltextsearch" --include \*.js --include \*.json --include \*.html client/
+
+
+Que sín contenga un texto y NO otro
+
+grep -R "se\.html" --include \*.js --include \*.json --include \*.html client/
+

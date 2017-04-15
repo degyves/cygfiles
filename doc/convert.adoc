@@ -1,0 +1,2 @@
+
+convert -resize 200x200 "input.jpg" "output.jpg"

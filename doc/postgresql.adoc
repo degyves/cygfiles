@@ -1,0 +1,107 @@
+= PostgreSQL: iniciar servidor y comandos útiles
+Victor Polo de Gyves <degyves@gmail.com> 
+:toc: :pagenums:
+
+== Iniciar PostgreSQL
+
+cat /usr/local/var/postgres/postmaster.pid
+kill (la primera linea, sin -9)
+pg_restore -D ECE backup/ece-database...
+brew services start postgresql
+brew services list
+brew services restart postgresql
+
+initdb -D ~/pgdata/ --no-locale -E UTF8
+
+pg_ctl -D /Users/victor/pgdata/ -l pgdata/postgresql.log start
+
+== Ver lista de llaves foráneas de una tabla
+
+----
+
+SELECT
+tc.constraint_name, tc.table_name, kcu.column_name, 
+    ccu.table_name AS foreign_table_name,
+    ccu.column_name AS foreign_column_name 
+    FROM 
+    information_schema.table_constraints AS tc 
+    JOIN information_schema.key_column_usage AS kcu
+    ON tc.constraint_name = kcu.constraint_name
+    JOIN
+    information_schema.constraint_column_usage
+    AS ccu
+    ON ccu.constraint_name =
+    tc.constraint_name
+    WHERE constraint_type = 'FOREIGN
+    KEY' AND tc.table_name='databasechangeloglock';
+
+----
+
+Llaves foráneas, compuestas:
+
+----
+
+    select c.constraint_name
+    , x.table_schema as schema_name
+    , x.table_name
+    , x.column_name
+    , y.table_schema as foreign_schema_name
+    , y.table_name as foreign_table_name
+    , y.column_name as foreign_column_name
+    from
+    information_schema.referential_constraints c
+    join information_schema.key_column_usage x
+    on x.constraint_name = c.constraint_name
+    join information_schema.key_column_usage y
+    on y.ordinal_position =
+    x.position_in_unique_constraint
+    and y.constraint_name =
+    c.unique_constraint_name
+    order by c.constraint_name,
+    x.ordinal_position;
+
+----
+
+Eliminar una llave foránea
+
+----
+ALTER TABLE producto DROP CONSTRAINT "fk_producto_partida";
+----
+
+== Otros comandos
+
+En psql, para listar las bases:
+
+----
+\l
+----
+
+
+En psql, para cambiar de base de datos:
+
+----
+\connect DBNAME
+----
+
+Crear y borrar una base de datos, desde el shell:
+
+----
+PGPASSWORD=postgres createdb -U postgres $DB -h 127.0.0.1
+PGPASSWORD=postgres dropdb -U postgres $DB -h 127.0.0.1
+----
+
+
+Borrar una base de dato con caracteres raros (\r)
+
+----
+drop database U&"ventas-one-column-fk\000D";
+drop database U&"ventas-one-column-fk\000A";
+drop database U&"ventas-one-column-fk\000A\000D";
+----
+
+Cambiar el nombre de una llave foránea
+
+----
+ALTER TABLE name RENAME CONSTRAINT "error_test_id_fkey" TO "the_new_name_fkey";
+----
+

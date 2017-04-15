@@ -1,2 +1,2 @@
 #!/bin/bash
-/Applications/FirefoxDeveloperEdition.app/Contents/MacOS/firefox $@ &
+set MOZ_NO_REMOTE=1 /Applications/Firefox.app/Contents/MacOS/firefox $@ &

@@ -1,0 +1,11 @@
+Agregar latex, mathjax, fórmulas a asciidoc
+
+. Sólo funciona con `asciidoctor`, no con `asciidoctor-pdf`.
+. Después de generar con `asciidoctor` un html, ejecutar 
+`~/bin/local-mathjax <archivo.html>` para convertir las referencias remotas 
+de mathjax a locales. Se necesita que esos archivos existan en
+`/Users/victor/util/mathjax/`.
+. El paquete original para localizar mathjax se bajó de
+https://blog.woopi.org/wordpress/?p=351.
+. Si cambia el archivo generado, habrá de modificarse el archivo `local-mathjax`.
+

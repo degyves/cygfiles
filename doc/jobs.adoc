@@ -1,0 +1,27 @@
+Deal with 2 jobs on one terminal
+----
+./translate :en+ex -shell &
+ccl &
+
+jobs
+
+fg 1
+
+C-z
+
+jobs
+
+fg 2
+C-z
+
+jobs
+----
+
+Zombie processes
+
+----
+
+ps -A -ostat,pid|awk '/[zZ]/{print $2}'
+
+----
+

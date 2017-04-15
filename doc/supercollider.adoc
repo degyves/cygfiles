@@ -1,0 +1,31 @@
+(
+SynthDef("help-synth", {| freq = #[440, 450, 460], out = 0 |
+Out.ar(out, Mix(SinOsc.ar(freq, 0, 0.1)));
+}).add;
+)
+
+( SynthDef("help-synth", {| freq = #[440, 450, 460], out = 0 | Out.ar(out, Mix(SinOsc.ar(freq, 0, 0.1))); }).add;)
+
+x = Synth("help-synth", [freq: [500, 501, 510]]);
+
+x.set(\freq, [1,2,3] * 400 + [1,2,3], \out, 1);
+
+x.set(\freq, [3] * 400 + [1,2,3], \out, 1);
+
+x.free;
+
+{SinOsc.ar(1200, 0, 0.1)}.play
+
+{SinOsc.ar(700, 0, 0.1)!2}.play
+{Pulse.ar(700, 0.2, 0.1)!2}.scope
+{Saw.ar(750, 0.1)!2}.scope
+{LFTri.ar(700,0,0.3)!2}.scope
+
+{SinOsc.ar(20, 0, 0.1)!2}.play
+
+s.quit
+s.boot
+
+{SinOsc.ar(20, 0, 0.5)!2}.play
+
+C-d para salir

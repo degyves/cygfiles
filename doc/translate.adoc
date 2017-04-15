@@ -1,0 +1,3 @@
+cd util/bash-tools/translate-shell
+./translate :en+es -shell
+

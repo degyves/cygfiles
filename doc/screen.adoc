@@ -1,0 +1,4 @@
+Split window onto two vertical panes: C-a |
+Change to pane: C-a TAB
+Create shell on a pane: C-a c
+Change to pane: H J K L

@@ -1,0 +1,900 @@
+With this command you can see the targets of the source code of jena:
+
+----
+mvn help:describe -Dplugin=org.apache.maven.plugins:maven-war-plugin -Ddetail=true
+----
+
+Start groovysh and enter the following to grab `jena-core` from the maven
+repositories:
+
+----
+
+@Grab('org.apache.jena:jena-core')
+
+----
+
+
+Next follow the tutorial: https://jena.apache.org/tutorials/rdf_api.html but in
+groovy.
+
+To enter multiple lines Groovy has to infer if each line is a complete sentence
+or it is part of a multiline sentence. The following can be pasted to the
+groovy shell and, each line is a complete sentence:
+
+----
+
+import org.apache.jena.rdf.model.*
+import org.apache.jena.vocabulary.*
+import org.apache.jena.util.*
+
+personURI = "http://somewhere/JohnSmith"
+givenName = "John"
+familyName = "Smith"
+fullName = givenName + " " + familyName
+model = ModelFactory.createDefaultModel()
+
+personURI
+----
+
+The next paragraph is a multiline sentence. But we are ending each line
+with an open parentheses so Groovy infers that the sentence has not ended:
+
+----
+
+johnSmith = model.createResource(personURI).addProperty(
+VCARD.FN, fullName).addProperty(
+VCARD.N,  model.createResource().addProperty(
+VCARD.Given, givenName) .addProperty(
+VCARD.Family, familyName))
+
+johnSmith
+
+----
+
+If an error occurs on the input of the a paragraph, using `:clear` clears the 
+last buffer on groovysh and try again. By the way, to exit groovysh use `:quit` 
+and to get help on the shell use `:help`. The interactive shell contains 
+autocomplete; use the `tab` key to autocomplete a token.
+
+resources, literals, arcs, statements, subject, predicate, object
+jonhSmith -> x
+-> is an arc or _statement_. 
+
+A statement has 3 parts:
+
+. The subject is the resource from which the arc leaves
+. The predicate is the property that labels the arc
+. The object is the resource or literal pointed to by the arc
+
+A statement is also called _triplet_.
+
+----
+
+model.listStatements().each{print it}
+
+model.listStatements().each{ 
+	stmt = it 
+	subject = stmt.getSubject()
+	predicate = stmt.getPredicate()
+	object = stmt.getObject() 
+	println "subject: "+subject 
+	println "predicate: "+predicate
+	if( object instanceof Resource) {
+		println "object: "+object 
+	}else{
+		println "object: \""+object+"\""
+	}
+}
+
+----
+
+There are four arcs, so there are four statements.
+
+== Writing RDF
+
+----
+model.write(System.out)
+model.write(System.out, "RDF/XML-ABBREV")
+model.write(System.out, "N-TRIPLES")
+----
+
+== Reading RDF
+
+----
+
+model = ModelFactory.createDefaultModel()
+inputFileName = "vc-db-1.rdf";
+infile = FileManager.get().open( inputFileName );
+if(infile == null){
+throw new IllegalArgumentException("File "+inputFileName+" not found")
+}
+
+model.read(infile, null)
+model.write(System.out)
+
+----
+
+
+== Controlling prefixes
+
+----
+
+m = ModelFactory.createDefaultModel()
+nsA = "http://somewhere/else#"
+nsB = "http://nowhere/else#"
+root = m.createResource( nsA + "root" );
+P = m.createProperty( nsA + "P" )
+Q = m.createProperty( nsB + "Q" )
+x = m.createResource(nsA+"x")
+y = m.createResource(nsA+"y")
+z = m.createResource(nsA+"z")
+m.add( root, P, x).add( root, P, y).add( y, Q, z)
+m.write(System.out)
+m.setNsPrefix("nsA", nsA)
+m.write(System.out)
+m.setNsPrefix( "cat", nsB )
+m.write( System.out )
+
+----
+
+== Implicit prefix definitions
+
+== Navigating a model
+
+----
+
+vcard = model.getResource("http://somewhere/JohnSmith/")
+name = (Resource)vcard.getProperty(VCARD.N).getObject()
+name = vcard.getProperty(VCARD.N).getResource()
+name = vcard.getProperty(VCARD.N).getString() // error
+fullName = vcard.getProperty(VCARD.FN).getString()
+
+// add two nicknames to vcard
+
+vcard.addProperty(VCARD.NICKNAME, "Smithy").addProperty(VCARD.NICKNAME, "Adman")
+
+println("The literals of \""+ fullName +"\" are:")
+iter = vcard.listProperties( VCARD.NICKNAME )
+while( iter.hasNext() ) {
+println(iter.nextStatement().getObject().toString() )
+}
+
+----
+
+== Querying a model
+
+List vcards
+
+----
+
+iter = model.listSubjectsWithProperty(VCARD.FN)
+while(iter.hasNext()){
+Resource r = iter.nextResource()
+println r
+}
+
+iter = model.listSubjectsWithProperty(VCARD.FN)
+if( iter.hasNext() ) {
+println("The database contains vcards for:")
+while(iter.hasNext()) {
+println(" "+ iter.nextResource().getProperty(VCARD.FN).getString() )
+}
+} else {
+println "No vcards were found on the database"
+}
+
+----
+
+The same, using SimpleSelector instead listSubjectsWithProperty
+
+----
+
+iter = model.listStatements(
+	new SimpleSelector(null, VCARD.FN, (RDFNode) null) {
+		@Override public boolean selects(Statement s) {
+			return s.getString().endsWith("Smith") }})
+
+println("The database contains vcards for:")
+while(iter.hasNext()) {
+println(" "+ iter.nextStatement().getString() ) }
+
+----
+
+== Operations on models
+
+----
+
+inputFilename1 = "vc-db-3.rdf"
+inputFilename2 = "vc-db-4.rdf"
+in1 = FileManager.get().open(inputFilename1)
+in2 = FileManager.get().open(inputFilename2)
+
+model1 = ModelFactory.createDefaultModel()
+model2 = ModelFactory.createDefaultModel()
+
+model1.read(in1,"")
+model2.read(in2,"")
+model = model1.union(model2)
+
+model.write(System.out, "RDF/XML-ABBREV")
+
+----
+
+== Containers
+
+Create a bag
+
+----
+
+model = ModelFactory.createDefaultModel()
+model.read(FileManager.get().open("vc-db-2.rdf"),"");
+
+smiths = model.createBag()
+
+iter = model.listStatements(
+	new SimpleSelector(null, VCARD.FN, (RDFNode) null) {
+		public boolean selects(Statement s) {
+			return s.getString().endsWith("Smith")
+		}
+	}
+)
+
+while(iter.hasNext()){
+smiths.add(iter.nextStatement().getSubject())
+}
+
+model.write(System.out)
+
+iter2 = smiths.iterator()
+if(iter2.hasNext()) {
+	println("The bag contains:")
+	while(iter2.hasNext()) {
+		println( ((Resource) iter2.next()).getProperty(VCARD.FN).getString() ) 
+	} 
+} else {
+	println("The bag is empty") }
+
+----
+
+== More about Literals and Datatypes
+
+----
+
+r = model.createResource()
+r.addProperty(RDFS.label, model.createLiteral("chat", "en"))
+r.addProperty(RDFS.label, model.createLiteral("chat", "fr"))
+r.addProperty(RDFS.label, model.createLiteral("<em>chat</em>", true))
+model.write(System.out)
+
+r = model.createResource()
+r.addProperty(RDFS.label, "11").addProperty(RDFS.label, 11)
+model.write(System.out, "N-TRIPLE")
+
+----
+
+To exit groovy, enter `:quit`.
+
+= SPARQL Tutorial
+
+== Data formats
+
+SPARQL queries RDF data. An RDF graph is a set of triples.
+
+From the javadoc: The language in which to write the model is 
+specified by the lang argument. Predefined values are "RDF/XML", 
+"RDF/XML-ABBREV", "N-TRIPLE", "TURTLE", (and "TTL") and "N3". 
+The default value, represented by null, is "RDF/XML".
+
+----
+
+model = ModelFactory.createDefaultModel()
+inputFileName = "vc-db-1.rdf";
+infile = FileManager.get().open( inputFileName );
+
+model.read(infile, null)
+model.write(System.out, "TURTLE")
+model.write(System.out, "N-TRIPLE")
+
+model.write(System.out)
+
+----
+
+== A "hello world" of queries
+
+----
+
+@Grab('org.apache.jena:jena-arq')
+
+import org.apache.jena.query.*
+
+queryStr = "SELECT ?x WHERE { ?x <http://www.w3.org/2001/vcard-rdf/3.0#FN> \"John Smith\" }"
+queryStr
+query = QueryFactory.create(queryStr)
+
+qexec = QueryExecutionFactory.create(query, model)
+results = qexec.execSelect()
+results.each {print it}
+qexec.close()
+
+queryStr2 = """SELECT ?givenName
+WHERE
+  { ?y  <http://www.w3.org/2001/vcard-rdf/3.0#Family>  "Smith" .
+    ?y  <http://www.w3.org/2001/vcard-rdf/3.0#Given>  ?givenName .
+  }"""
+
+query = QueryFactory.create(queryStr2)
+qexec = QueryExecutionFactory.create(query, model)
+results = qexec.execSelect()
+results.each{print it}
+
+query = QueryFactory.create("""
+PREFIX vcard:      <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?givenName
+WHERE
+ { ?y vcard:Family "Smith" .
+   ?y vcard:Given  ?givenName .
+ }
+ """)
+qexec = QueryExecutionFactory.create(query, model)
+qexec.execSelect().each{print it}
+
+qexec = QueryExecutionFactory.create(QueryFactory.create("""
+PREFIX vcard:      <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?y ?givenName
+WHERE
+ { ?y vcard:Family "Smith" .
+   ?y vcard:Given  ?givenName .
+ }
+ """), model)
+qexec.execSelect().each{print it}
+
+----
+
+== Filters
+
+----
+
+def qef (String q, Model m) { QueryExecutionFactory.create(QueryFactory.create(q), m) }
+
+qexec = qef("""PREFIX vcard: <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?g
+WHERE
+{ ?y vcard:Given ?g .
+  FILTER regex(?g, "r", "i") }""", model)
+
+qexec.execSelect().each{print it}
+
+----
+
+== Testing values
+
+----
+
+model = ModelFactory.createDefaultModel()
+infile = FileManager.get().open( "vc-db-2.rdf" );
+model.read(infile, null)
+
+qexec = qef("""PREFIX info: <http://somewhere/peopleInfo#>
+SELECT ?resource
+WHERE
+  {
+    ?resource info:age ?age .
+    FILTER (?age >= 24)
+  }""", model)
+
+qexec.execSelect().each{print it}
+
+model.write(System.out, "TURTLE")
+----
+
+== OPTIONALs
+
+----
+
+qexec = qef("""PREFIX info:    <http://somewhere/peopleInfo#>
+PREFIX vcard:   <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name ?age
+WHERE
+{
+    ?person vcard:FN  ?name .
+    OPTIONAL { ?person info:age ?age }
+}""",model)
+
+qexec.execSelect().each{print it}
+
+model.write(System.out, "TURTLE")
+
+qexec = qef("""PREFIX info:   <http://somewhere/peopleInfo#>
+PREFIX vcard:  <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name ?age
+WHERE
+{
+    ?person vcard:FN  ?name .
+    ?person info:age ?age .
+}""",model)
+
+qexec.execSelect().each{print it}
+
+
+----
+
+== OPTIONALs vs FILTERs
+
+----
+
+qexec = qef("""PREFIX info:        <http://somewhere/peopleInfo#>
+PREFIX vcard:      <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name ?age
+WHERE
+{
+    ?person vcard:FN  ?name .
+    OPTIONAL { ?person info:age ?age . FILTER ( ?age > 24 ) }
+}""",model)
+
+qexec.execSelect().each{print it}
+
+qexec = qef("""PREFIX info:        <http://somewhere/peopleInfo#>
+PREFIX vcard:      <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name ?age
+WHERE
+{
+    ?person vcard:FN  ?name .
+    OPTIONAL { ?person info:age ?age } .
+    FILTER ( !bound(?age) || ?age > 24 ) 
+}""",model)
+
+qexec.execSelect().each{print it}
+
+----
+
+== OPTIONALs and other dependent queries
+
+----
+
+qexec = qef("""PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name
+WHERE
+{
+  ?x a foaf:Person .
+  OPTIONAL { ?x foaf:name ?name }
+  OPTIONAL { ?x vCard:FN  ?name }
+}""", model)
+
+qexec.execSelect().each{print it}
+
+----
+
+== Alternatives in a Pattern
+
+
+----
+
+testClosure = {int i, int j -> i +j}
+testClosure(1,2)
+
+helloWorld = {print "hello world!"}
+helloWorld()
+
+initModel = {String inputFilename, String base, String lang  -> 
+  model = ModelFactory.createDefaultModel()
+  infile = FileManager.get().open( inputFilename );
+  if(infile == null){
+    throw new IllegalArgumentException("File "+inputFilename+" not found")
+  }
+  model.read(infile, base, lang)
+  return model
+}
+
+model = initModel("vc-db-1.rdf", null, null)
+
+model.write(System.out, "TURTLE")
+model.write(System.out, "N-TRIPLE")
+
+qef("""PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name
+WHERE
+{
+   { [] foaf:name ?name } UNION { [] vCard:FN ?name }
+}""", model).execSelect().each{print it}
+
+qef("""PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name
+WHERE
+{
+  [] ?p ?name
+  FILTER ( ?p = foaf:name || ?p = vCard:FN )
+}""", model).execSelect().each{print it}
+
+qef("""PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name1 ?name2
+WHERE
+{
+  { [] foaf:name ?name1 } UNION { [] vCard:FN ?name2 }
+}""", model).execSelect().each{print it}
+
+qef("""PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#>
+SELECT ?name1 ?name2
+WHERE
+{
+  ?x a foaf:Person
+  OPTIONAL { ?x  foaf:name  ?name1 }
+  OPTIONAL { ?x  vCard:FN   ?name2 }
+}""",model).execSelect().each{print it}
+
+----
+
+== Datasets
+
+----
+
+@Grab('org.slf4j:slf4j-simple:1.7.5')
+@Grab('org.slf4j:slf4j-api:1.7.5')
+// @GrabResolver(name='jena-tdb', root='file:${user.home}/.m2/repository')
+// @GrabResolver(name='jena-tdb', root='file:/Users/victor/.m2/repository')
+@Grab('org.xeustechnologies:jcl-core:2.8')
+@Grab('org.apache.jena:jena-core')
+@Grab('org.apache.jena:jena-tdb:3.2.0-SNAPSHOT')
+@Grab('org.apache.jena:jena-iri')
+@Grab('org.apache.jena:jena-osgi')
+@Grab('org.apache.jena:jena-arq')
+import org.xeustechnologies.jcl.*
+import org.apache.jena.query.*
+import org.apache.jena.rdf.model.*
+import org.apache.jena.vocabulary.*
+import org.apache.jena.util.*
+import org.apache.jena.tdb.*
+import org.apache.jena.tdb.setup.*
+import org.apache.jena.riot.*
+import org.apache.jena.graph.*
+import org.apache.jena.shared.*
+go
+
+
+
+----
+
+`Model` has the method `getGraph()`.
+The following apparently loads the default graph:
+
+----
+
+TDBFactory.doHi()
+
+dataset1 = TDBFactory.createDataset("/Users/victor/koneksys/jena/tutorial-rdf-api/tdb1/")
+
+dataset1.close()
+
+defaultModel = RDFDataMgr.loadModel("ds-dft.ttl")
+
+dataset1.setDefaultModel(defaultModel) // error
+
+dataset1.getDefaultModel().add(defaultModel) // ok
+
+dataset1.getDefaultModel().write(System.out)
+
+// dataset1 = RDFDataMgr.loadDataset("ds-dft.ttl") 
+
+// dataset1.getDefaultModel().write(System.out) 
+
+----
+
+Now we want to add 2 named graphs:
+
+----
+
+// RIOT.init() //not needed
+
+//error
+model1 = initModel("ds-ng-1.ttl", null, "TURTLE")
+
+//error
+model1 = initModel("data.ttl", null, "TTL")
+
+// correct
+model1  = RDFDataMgr.loadModel("ds-ng-1.ttl")
+
+dataset1.addNamedModel("ds-ng-1.ttl", model1)
+
+dataset1.getNamedModel("ds-ng-1.ttl").write(System.out)
+
+model2 = RDFDataMgr.loadModel("ds-ng-2.ttl")
+
+dataset1.addNamedModel("ds-ng-2.ttl", model2)
+
+dataset1.getNamedModel("ds-ng-2.ttl").write(System.out)
+
+dataset1.close()
+
+TDBFactory.release(dataset1) // error - already closed
+
+ds = TDBFactory.createDatasetGraph()
+
+ds.close()
+
+----
+
+Recover the connection to the TDB dataset:
+
+----
+dataset1 = TDBFactory.createDataset("/Users/victor/koneksys/jena/tutorial-rdf-api/tdb1/")
+dataset1.getDefaultModel().write(System.out)
+dataset1.getNamedModel("ds-ng-2.ttl").write(System.out)
+----
+
+Accesing the datasets
+
+----
+
+def qef (String q, Dataset d) { QueryExecutionFactory.create(QueryFactory.create(q), d) }
+
+// query the default graph
+
+qry1 = """PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX : <.>
+SELECT *
+{ ?s ?p ?o }
+"""
+
+qef(qry1,dataset1).execSelect().each{print it}
+
+// query all triples on the default graph and the named graphs
+
+qry2 = """PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX  dc:     <http://purl.org/dc/elements/1.1/>
+PREFIX  :       <.>
+SELECT *
+{
+    { ?s ?p ?o } UNION { GRAPH ?g { ?s ?p ?o } }
+}"""
+
+qef(qry2, dataset1).execSelect().each{print it}
+
+results = ResultSetFactory.makeRewindable( qef(qry2, dataset1).execSelect() )
+ResultSetFormatter.outputAsXML(System.out, results)
+ResultSetFormatter.out(System.out, results)
+ResultSetFormatter.outputAsCSV(System.out, results)
+ResultSetFormatter.outputAsTSV(System.out, results)
+ResultSetFormatter.outputAsJSON(System.out, results)
+
+// query a specific graph @TODO
+
+qry3 = """
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX : <.>
+SELECT ?title
+{ 
+  GRAPH :ds-ng-2.ttl
+  { ?b dc:title ?title }
+}"""
+
+
+qry3 = """
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX : <.>
+SELECT ?title
+{ 
+  GRAPH <http://server/unset-base/ds-ng-2.ttl>
+  { ?b dc:title ?title}
+}"""
+
+qef(qry3, dataset1).execSelect().each{print it}
+
+qry4 = """
+SELECT ?subject ?predicate ?object ?g
+WHERE { 
+	GRAPH :ds-ng-2.ttl
+      { 
+        ?subject ?predicate ?object
+      }
+}"""
+
+qef(qry4, dataset1).execSelect().each{print "->"+it}
+
+// @TODO 
+
+qry5 = """
+PREFIX dc: <htt.//purl.org/gc/elements/1.1>
+PREFIX : <.>
+SELECT ?subject ?predicate ?object ?g
+FROM :ds-ng-2.ttl
+WHERE { 
+      { 
+        ?subject ?predicate ?object
+      }
+}"""
+
+qef(qry5, dataset1).execSelect().each{print it}
+
+// Querying to find data from graphs that match a pattern @TODO
+
+qry6 = """PREFIX  xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX  dc:     <http://purl.org/dc/elements/1.1/>
+PREFIX  :       <.>
+SELECT ?date ?title
+{
+  ?g dc:date ?date . FILTER (?date > "2005-08-01T00:00:00Z"^^xsd:dateTime )
+  GRAPH ?g
+      { ?b dc:title ?title }
+} """
+
+qef(qry6, dataset1).execSelect().each{print it}
+
+
+// Describing RDF datasets - FROM and FROM NAMED @TODO
+
+qry7 = """PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc:  <http://purl.org/dc/elements/1.1/>
+PREFIX :    <.>
+SELECT *
+FROM       <ds-dft.ttl>
+FROM NAMED <ds-ng-1.ttl>
+FROM NAMED <ds-ng-2.ttl>
+{
+   { ?s ?p ?o } UNION { GRAPH ?g { ?s ?p ?o } }
+} """
+
+qef(qry7, dataset1).execSelect().each{print it}
+
+----
+
+Using the low layer graph
+
+----
+
+// Try to batch up inserts within a single try/finally block
+
+s = NodeFactory.createURI("Rational Software Architect")
+p = Node.createURI("hasAcronym")
+o = NodeFactory.createURI("RSA")?
+triple = new Triple(s, p, o)
+// dm is the DefaultModel
+dm.getGraph().add(triple)
+// try
+dm.enterCriticalSection(Lock.WRITE)
+TDB.sync(dm.getGraph())
+//finally
+dm.leaveCriticalSection()
+
+----
+
+http://trimc-nlp.blogspot.mx/2013/06/introduction-to-jena.html
+
+The Graph Layer is used if you plan to extend suppor of Jena into your product.
+For example, IBM's DB2 RDF store has extended he Jena Graph Layer to provide a
+functional Jena API for DB2.
+
+OTOH the Model Layer is used to leverage Jena support in a business application.
+
+The Ontology Model Layer - This layer is not performant in all but the smallest
+and most trivial datasets.
+
+The Graph Layer is a SPI - is what we extend and implement to achieve a goal
+The Model Layer is an API - is what we call and use to achieve a goal
+
+A triple is created for the default model. A Quad is created for a named model.
+The fourth element is the name of the model. This is W3C RDF standard.
+
+= TDB Java API
+
+To make and install the TDB source:
+
+----
+
+mvn -Dmaven.test.skip=true clean package
+
+----
+
+To instal jcl on the maven local repository:
+
+----
+
+mvn dependency:get \
+    -DrepoUrl=http://mvnrepository.com/artifact \
+        -Dartifact=org.xeustechnologies:jcl-core:LATEST:jar \
+        -Dtransitive=false -U
+
+----
+
+To set a devel-environment for TDB, use the fastest way to re-compile it:
+
+----
+mvn -Dmaven.test.skip=true clean compile
+----
+
+
+Now we must be able to re-load the classes for each recompile:
+(note that slf4j is also loaded)
+
+----
+
+@Grab('org.slf4j:slf4j-simple:1.7.5')
+@Grab('org.slf4j:slf4j-api:1.7.5')
+// @GrabResolver(name='jena-tdb', root='file:${user.home}/.m2/repository')
+// @GrabResolver(name='jena-tdb', root='file:/Users/victor/.m2/repository')
+@Grab('org.xeustechnologies:jcl-core:2.8')
+@Grab('org.apache.jena:jena-core')
+@Grab('org.apache.jena:jena-tdb:3.2.0-SNAPSHOT')
+@Grab('org.apache.jena:jena-iri')
+@Grab('org.apache.jena:jena-osgi')
+@Grab('org.apache.jena:jena-arq')
+import org.xeustechnologies.jcl.*
+import org.apache.jena.query.*
+import org.apache.jena.rdf.model.*
+import org.apache.jena.vocabulary.*
+import org.apache.jena.util.*
+import org.apache.jena.tdb.*
+import org.apache.jena.tdb.setup.*
+import org.apache.jena.riot.*
+import org.apache.jena.graph.*
+import org.apache.jena.shared.*
+go
+
+@Grab('org.xeustechnologies:jcl-core:2.8')
+import org.xeustechnologies.jcl.*
+go
+
+jcl = new JarClassLoader()
+jcl.add(System.getProperty("user.home")
++"/koneksys/jena/jena-src/jena-tdb/target/classes")
+jcl.add(System.getProperty("user.home")
++"/.m2/repository/org/apache/jena/jena-arq/3.2.0-SNAPSHOT/jena-arq-3.2.0-SNAPSHOT.jar")
+jcl.add(System.getProperty("user.home")
++"/.m2/repository/org/apache/jena/jena-core/3.2.0-SNAPSHOT/jena-core-3.2.0-SNAPSHOT.jar")
+jcl.add(System.getProperty("user.home")
++"/.m2/repository/org/apache/jena/jena-base/3.2.0-SNAPSHOT/jena-base-3.2.0-SNAPSHOT.jar")
+
+factory = JclObjectFactory.getInstance()
+tdbFactory = factory.create(jcl, "org.apache.jena.tdb.TDBFactory")
+tdbFactoryClass = jcl.loadClass("org.apache.jena.tdb.TDBFactory")
+tdbFactory.doHi()
+dummyFactoryClass = jcl.loadClass("org.apache.jena.tdb.DummyFactory")
+dummyFactoryClass.doTest()
+
+----
+
+SO questions:
+
+----
+model = ModelFactory.createDefaultModel()
+model.read("http://www.w3.org/TR/REC-rdf-syntax/example14.nt")
+
+----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

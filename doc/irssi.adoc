@@ -1,0 +1,2 @@
+C-p C-n previous/next window
+Fn-Alt Up/Down scroll up/down

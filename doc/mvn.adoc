@@ -1,0 +1,20 @@
+= Useful goals
+
+mvn javadoc:javadoc
+
+mvn dependency:get -Dartifact=org.apache.jena:jena-core:3.2.0
+mvn dependency:get -Dartifact=org.apache.jena:jena-core:3.2.0-SNAPSHOT
+
+== Error: maven resolution will not be reattempted
+
+mvn -U dependency:get -Dartifact=groupId:artifactId:version
+mvn -U dependency:get -Dartifact=com.google.guava:guava:21.0
+mvn -U dependency:get -Dartifact=org.json:json:20160810
+mvn -U dependency:get -Dartifact=javax:javaee-api:7.0
+mvn -U dependency:get -Dartifact=org.glassfish:javax.json:1.0.4
+
+== Skip tests
+
+mvn install -DskipTests
+
+

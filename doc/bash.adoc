@@ -1,0 +1,153 @@
+== Bash
+
+Better `find | xargs:` mostrar sólo el archivo, a partir del directorio actual: 
+
+----
+grep -rli "swank" ./
+----
+
+Más detalles (archivo y número de línea): 
+
+----
+grep -rnw 'directory' -e "pattern"
+----
+
+Buscar en un proyecto git:
+
+----
+git grep -n text
+
+git grep -n text <SHA> HEAD~2
+----
+
+
+Mostrar archivos con cualquier texto que contenga text-toke,
+precedido y continuado por cualquier texto:
+
+----
+grep -rnw "./" -e ".*text-toke.*"
+----
+ 
+Otros ejemplos:
+
+----
+grep -rinw 'directory' -e "pattern"
+grep --include=\*.{c,h] -rnw 'directory' -e "pattern"
+grep --exclude=*.o -rnw 'directory' -e "pattern"
+grep --exclude-dir={dir1,dir2,*.dst}
+----
+
+echo last command:
+
+----
+!:0 -> name of last command
+!:1 -> first parameter of last command
+!:* -> all parameters of last command
+!:-1 -> the final parameter
+!! -> the entire last command
+
+echo !!
+
+LANG=C.BINARY gem install asciidoctor
+echo '<h1>Hello world!</h1>'|firefox "data:text/html;base64,$(base64 -w 0 <&0)"
+----
+
+Mover archivos por fecha
+
+----
+find ~/Downloads/ -newermt 20160903 -print0|xargs -0 gmv -t ~/centeno/
+----
+
+Activar extensiones de bash:
+    
+----
+shopt -s extglob
+
+# mostrar extensiones activas
+shopt
+
+----
+
+Con las extensiones de bash, excluir un archivo
+  
+----
+nvim ~/txml/txml/!(tXML)
+
+# Excluir un patrón de archivos
+
+ls !(dailyupdate*.pdf)
+
+----
+
+Cambiar de nombre un grupo de archivos y conservar la extensión:
+
+----
+
+# Con find
+find . -name "expediente.*" -exec bash -c 'echo "$1" "resumen-clinico."${1##*.}' - '{}' \;
+
+# Con for, remover un prefijo 
+for i in $(ls daily*); do echo $i $(echo $i|sed 's/dailyupdate//') ; done
+
+----
+
+
+Cambiar de extension un grupo de archivos:
+
+----
+
+# con find
+find . -name "*.mp4" -exec bash -c 'echo "$1" "${1%.t1}".mp3' - '{}' \;
+
+# con for
+for i in $(ls *.asciidoc); do mv $i $(echo $i|sed 's/asciidoc/adoc/'); done
+
+---
+
+Convertir a mp3 un grupo de archivos:
+
+----
+
+find . -name "*.mp4" -exec bash -c 'ffmpeg -i "$1" "${1%.t1}".mp3' - '{}' \;
+----
+
+Listar directorios, por espacio
+
+
+----
+du -chd 1 |gsort -hr > space
+----
+
+== Presentaciones
+
+----
+mdp archivo.markdown
+----
+
+
+== OSX
+
+Copiar y pegar en OSX: `pbcopy`, `pbpaste`.
+
+Updatedb: 
+
+----
+sudo /usr/libexec/locate.updatedb
+----
+
+Hibernar `pmset sleepnow`
+
+
+== Recursively sort files by size
+
+OSX (gnu utils):
+
+----
+gdu -ah . | grep -v "/$" | gsort -rh|less
+----
+
+Linux
+
+----
+du -ah . | grep -v "/$" | sort -rh|less
+----

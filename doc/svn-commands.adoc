@@ -1,0 +1,17 @@
+== Clonar repositorio
+
+svn checkout http://url-de-repositorio
+
+== Agregar nuevo directorio o archivo
+
+svn add dir
+
+== Enviar al repositorio
+
+svn update
+
+svn commit -m "log message"
+
+Actualizar repo, siempre debe hacerse svn update antes de commit
+
+

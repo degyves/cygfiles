@@ -1,0 +1,14 @@
+== Variables de entorno
+
+GEM_PATH=~/.gems
+GEM_HOME=~/.gems
+
+doas /etc/rc.d/relayd -f start
+doas /etc/rc.d/postgresql start
+
+== Iniciar redmine en modo prueba
+
+bundle exec ruby bin/rails server webrick -e production
+
+bundle exec rails server webrick -e production
+

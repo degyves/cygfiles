@@ -1,0 +1,11 @@
+== Send mail with msmtp
+
+To get the certificates, install curl and execute `mk-ca-bundle.pl`, then move 
+the 2 resulting files anywhere you want. Copy the file `~/.msmtprc.example` to
+`~/.msmtprc` and replace the text accordingly.
+
+Verify that it works, sending an e-mail from the shell: `msmtp user@gmail.com`.
+
+We could send mutt running in the background and re-connect it to the terminal
+with `reptyr` but currently it doesn't work on OSX.
+

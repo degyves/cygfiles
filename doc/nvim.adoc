@@ -1,0 +1,78 @@
+= VIM and Neovim
+
+Open a new file sibling: `:Ex`
+
+Open a terminal inside nvim: `:term`
+	
+Follow vim-link: `C-]` (without AltGr)
+
+Return from vim-link: `C-o`
+
+To change two vertically split windows to horizonally split:
+`Ctrl-W t Ctrl-W K`
+
+Horizontally to vertically: `Ctrl-W t Ctrl-W H`
+
+Explanations:
+
+Ctrl-W t makes the first (topleft) window current Ctrl-W K moves the 
+current window to full-width at the very top Ctrl-W H moves the current 
+window to full-height at far left
+
+Find faster: `<leader><leader>w` 
+
+Emmet-vim `c-y,`
+
+Centrar la pantalla a la línea actual `zz`
+
+Reemplazar una REGEXP por grupos: `:%s/N\(\d\+\.\d\+\)/F\1\.\2/g`
+
+=== Usar diferentes portapapeles (registros): 
+
+Copiar una línea al registro "a": `"ayy`
+
+Pegar desde el registro "a": `"ap`
+
+Ver todos los registros y sus valores: `:reg`
+
+Copiar una línea, luego borrar otra y pegar la línea copiada: El 
+registro "0" contiene el último yank.
+
+----
+yy
+dd
+"0p
+----
+
+Contar coincidencias `:%s/pattern//gn`
+
+== Centrar la pantalla a la línea actual 
+
+zz
+
+== Reemplazar una REGEXP por grupos
+
+:%s/N\(\d\+\.\d\+\)/F\1\.\2/g
+
+
+== Path del archivo, file, buffer
+
+:echo @%
+:echo expand('%:p')
+
+
+== Rename rename renombrar archivo actual
+
+You could drop to Netrw and rename the file there.
+If the file you're editing is in the current directory, then do: `:edit .`
+Navigate to the file, press `R`, and change the name. Press `Enter` to 
+edit the file.  There's a caveat though: the original buffer remains in 
+the list of buffers. If you switch to it, it's empty.
+If the file you're editing is in a different directory, you can change to the 
+file's directory with: `:cd %:p:h`
+
+If you don't want to change the directory for the entire Vim session but
+only for the current buffer, then you can do instead: `:lcd %:p:h`
+
+Typing straight `:edit %:p:h` also seems to work. – Mladen Jablanović Feb
+

@@ -1,0 +1,13 @@
+Of the curren processes, print its process id, the parent's processor id, the
+executable name and the parameters of the command:
+
+----
+ps -o pid,ppid,comm,command
+----
+
+The same, but with the group id:
+
+----
+ps -o pid,ppid,gid,comm,command
+----
+

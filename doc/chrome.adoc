@@ -1,0 +1,23 @@
+Inspect event:
+
+right click over the element, then "Inspect", then go to "Console" then write: 
+
+----
+monitorEvents($0)
+----
+
+To stop getting this data:
+
+----
+unmonitorEvents($0)
+----
+
+`$0` is just the last DOM element selected by Chrome Developer Tools
+
+You can also specify event "type" as second parameter to narrow monitored events
+to some predefined set. For example, 
+
+----
+monitorEvents(document.body, 'mouse')
+----
+
